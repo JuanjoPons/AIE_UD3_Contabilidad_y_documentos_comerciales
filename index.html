@@ -1,0 +1,1169 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UD3 · Contabilidad básica y documentación comercial · IB2301</title>
+<meta name="description" content="Material interactivo de la UD3 del módulo IB2301 Autoocupació i emprenedoria: sesiones, actividades autocorregibles, enlaces y vídeos.">
+<!--
+ ============ INSTRUCCIONES RÁPIDAS (profesor) ============
+ 1) Sube este archivo a un repositorio de GitHub como index.html y activa GitHub Pages (Settings > Pages).
+ 2) Para recibir un correo cuando el alumnado envíe una sesión, crea un flujo de Power Automate:
+    - Desencadenador: "Cuando se recibe una solicitud HTTP".
+    - Acción: "Analizar JSON" sobre el cuerpo (Body). Esquema: usa "Generar a partir de un ejemplo" con un envío de prueba.
+    - Acción: "Enviar un correo electrónico (V2)" a jpons@centredelamar.com con Asunto = asunto y Cuerpo = resumen.
+    - (Opcional) "Agregar una fila a una tabla" de Excel en SharePoint con alumno, grupo, sesion, nota y fecha.
+    - Copia la URL HTTP POST del desencadenador y pégala en CONFIG.WEBHOOK_URL (más abajo).
+ 3) Mientras WEBHOOK_URL esté vacía, la web ofrece al alumno enviar el resultado con su programa de correo.
+ Aviso: las respuestas correctas viajan dentro de la página; es material formativo, no una prueba evaluable.
+-->
+<style>
+:root{
+  --bg:#f4f7fa; --surface:#ffffff; --surface-2:#eef3f8; --ink:#14233a; --ink-2:#4a5b73; --line:#d9e2ec;
+  --brand:#0b5c8a; --brand-2:#0e7c86; --brand-ink:#ffffff; --accent:#e9a23b;
+  --ok:#17803d; --ok-bg:#e4f6ea; --bad:#b42318; --bad-bg:#fdecea; --warn-bg:#fff6e0; --warn:#8a5a00;
+  --shadow:0 1px 2px rgba(20,35,58,.06),0 6px 20px rgba(20,35,58,.07);
+  --radius:16px; --font:"Inter","Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#0c1624; --surface:#122035; --surface-2:#172a44; --ink:#e8eef6; --ink-2:#a9b8cc; --line:#25395a;
+    --brand:#4db3e6; --brand-2:#4fd1c5; --brand-ink:#06223a; --accent:#f2b95a;
+    --ok:#5bd68a; --ok-bg:#12331f; --bad:#ff8a80; --bad-bg:#3a1713; --warn-bg:#34290d; --warn:#f2c76b;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.35);}
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--brand)}
+h1,h2,h3,h4{line-height:1.25;margin:0 0 .5em}
+h2{font-size:1.45rem} h3{font-size:1.15rem} h4{font-size:1rem}
+p{margin:0 0 .9em}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+/* header */
+.hero{background:linear-gradient(135deg,#0a3d62 0%,#0b5c8a 55%,#0e7c86 100%);color:#fff;padding:28px 0 22px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.07)}
+.hero .tag{display:inline-block;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;background:rgba(255,255,255,.16);padding:4px 10px;border-radius:999px;margin-bottom:10px}
+.hero h1{font-size:clamp(1.5rem,4vw,2.3rem);margin:0 0 6px}
+.hero p{margin:0;opacity:.92;max-width:62ch}
+.who{position:absolute;right:16px;top:16px;z-index:2}
+.chip{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.3);padding:6px 12px;border-radius:999px;font:inherit;font-size:.85rem;cursor:pointer}
+.chip:hover{background:rgba(255,255,255,.26)}
+/* tabs */
+.tabs-bar{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:10px 0;scrollbar-width:thin}
+.tab{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:8px 14px;border-radius:12px;font:inherit;font-size:.92rem;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;line-height:1.25;min-width:96px;transition:.15s}
+.tab small{color:var(--ink-2);font-size:.72rem}
+.tab:hover{border-color:var(--brand)}
+.tab[aria-selected="true"]{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.tab[aria-selected="true"] small{color:inherit;opacity:.85}
+.tab .done{color:var(--ok);font-weight:700}
+.tab[aria-selected="true"] .done{color:#c9ffd9}
+main{padding:22px 0 60px}
+.panel[hidden]{display:none}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:18px}
+.card h3{margin-top:0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:760px){.grid2{grid-template-columns:1fr}}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.pill{font-size:.78rem;background:var(--surface-2);border:1px solid var(--line);padding:3px 10px;border-radius:999px;color:var(--ink-2)}
+.pill.brand{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+ul.goals{padding-left:1.1em;margin:.3em 0}
+ul.goals li{margin:.2em 0}
+.callout{border-left:4px solid var(--accent);background:var(--warn-bg);color:var(--ink);padding:12px 14px;border-radius:0 12px 12px 0;margin:14px 0}
+.callout.info{border-color:var(--brand);background:var(--surface-2)}
+.callout b.t{display:block;margin-bottom:2px}
+.table-wrap{overflow-x:auto;margin:12px 0}
+table{border-collapse:collapse;width:100%;font-size:.93rem}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--surface-2)}
+.sect-title{display:flex;align-items:center;gap:10px;margin:26px 0 12px;font-size:1.2rem}
+.sect-title::after{content:"";flex:1;height:1px;background:var(--line)}
+/* theory accordions */
+details.acc{border:1px solid var(--line);border-radius:12px;background:var(--surface);margin:10px 0;overflow:hidden}
+details.acc>summary{cursor:pointer;padding:12px 16px;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:10px}
+details.acc>summary::-webkit-details-marker{display:none}
+details.acc>summary::after{content:"+";font-weight:700;color:var(--brand)}
+details.acc[open]>summary::after{content:"–"}
+details.acc>.body{padding:0 16px 14px}
+/* activities */
+.act{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);margin:16px 0;box-shadow:var(--shadow);overflow:hidden}
+.act-head{display:flex;gap:12px;align-items:center;padding:14px 18px;background:var(--surface-2);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.act-code{background:var(--brand);color:var(--brand-ink);font-weight:700;border-radius:10px;padding:4px 10px;font-size:.9rem}
+.act-head h4{margin:0;flex:1;min-width:200px}
+.badge{font-size:.74rem;padding:3px 10px;border-radius:999px;font-weight:600}
+.badge.auto{background:var(--ok-bg);color:var(--ok)}
+.badge.cls{background:var(--warn-bg);color:var(--warn)}
+.act-body{padding:16px 18px}
+.q{padding:12px 0;border-bottom:1px dashed var(--line)}
+.q:last-child{border-bottom:0}
+.q .qt{font-weight:600;margin-bottom:8px}
+.q .qn{color:var(--brand);margin-right:6px}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border:1px solid var(--line);border-radius:10px;margin:6px 0;cursor:pointer;background:var(--bg)}
+.opt:hover{border-color:var(--brand)}
+.opt input{margin-top:.28em;accent-color:var(--brand)}
+select.sel{font:inherit;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);max-width:100%;width:100%}
+.q.ok .opt.chosen,.cell.ok select{border-color:var(--ok);background:var(--ok-bg)}
+.q.bad .opt.chosen,.cell.bad select{border-color:var(--bad);background:var(--bad-bg)}
+.opt.right{border-color:var(--ok);background:var(--ok-bg)}
+.fb{margin-top:8px;font-size:.92rem;padding:8px 12px;border-radius:10px}
+.fb.ok{background:var(--ok-bg);color:var(--ok)} .fb.bad{background:var(--bad-bg);color:var(--bad)}
+.fb b{display:block}
+.fb span{color:var(--ink)}
+fieldset{border:0;padding:0;margin:0}
+.gridtab td.cell select{min-width:150px}
+.cell.ok{outline:2px solid var(--ok);outline-offset:-2px}.cell.bad{outline:2px solid var(--bad);outline-offset:-2px}
+.cell .why{display:block;font-size:.8rem;margin-top:4px;color:var(--ink-2)}
+.submit-bar{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 18px;margin-top:18px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;box-shadow:var(--shadow)}
+.btn{font:inherit;font-weight:600;border:0;border-radius:12px;padding:11px 18px;cursor:pointer;background:var(--brand);color:var(--brand-ink);transition:.15s}
+.btn:hover{filter:brightness(1.08)} .btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.sec{background:var(--surface-2);color:var(--ink);border:1px solid var(--line)}
+.btn.ghost{background:transparent;color:var(--brand);border:1px solid var(--brand)}
+.progress{flex:1;min-width:160px;font-size:.88rem;color:var(--ink-2)}
+.bar{height:8px;background:var(--surface-2);border-radius:99px;overflow:hidden;margin-top:4px}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--brand-2));width:0;transition:.3s}
+.result{border-radius:var(--radius);padding:18px;margin-top:14px;background:var(--surface);border:2px solid var(--brand)}
+.result .big{font-size:2.2rem;font-weight:800;color:var(--brand);line-height:1}
+.result .big small{font-size:1rem;color:var(--ink-2);font-weight:600}
+.result ul{margin:.6em 0;padding-left:1.1em}
+.status{font-size:.9rem;margin:8px 0 0;padding:8px 12px;border-radius:10px}
+.status.ok{background:var(--ok-bg);color:var(--ok)}
+.status.warn{background:var(--warn-bg);color:var(--warn)}
+.status.bad{background:var(--bad-bg);color:var(--bad)}
+.cls-box{display:flex;gap:14px;align-items:flex-start}
+.cls-box .ico{font-size:1.6rem}
+/* resources */
+.links{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.links a.lk{display:block;padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--surface);text-decoration:none;color:var(--ink);height:100%;transition:.15s}
+.links a.lk:hover{border-color:var(--brand);transform:translateY(-2px)}
+.links .lt{font-weight:700;color:var(--brand);display:block}
+.links .ld{font-size:.88rem;color:var(--ink-2)}
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.vcard{border:1px solid var(--line);background:var(--surface);border-radius:14px;overflow:hidden}
+.vcard .thumb{aspect-ratio:16/9;background:linear-gradient(135deg,#0a3d62,#0e7c86);display:grid;place-items:center;color:#fff;font-size:2.2rem}
+.vcard iframe{width:100%;aspect-ratio:16/9;border:0;display:block}
+.vcard .vb{padding:12px 14px}
+.vcard .vb b{display:block;margin-bottom:4px}
+.vcard .vb small{color:var(--ink-2)}
+.vcard .vb a{display:inline-block;margin-top:8px;font-weight:600}
+/* dialog */
+dialog{border:0;border-radius:18px;padding:0;max-width:min(460px,92vw);width:100%;background:var(--surface);color:var(--ink);box-shadow:0 20px 60px rgba(0,0,0,.4)}
+dialog::backdrop{background:rgba(8,18,32,.6);backdrop-filter:blur(3px)}
+dialog form{padding:22px}
+label.f{display:block;font-weight:600;margin:12px 0 4px}
+input.t{width:100%;font:inherit;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+input.t:focus,select.sel:focus,.btn:focus-visible,.tab:focus-visible{outline:3px solid color-mix(in srgb,var(--brand) 55%,transparent);outline-offset:2px}
+.err{color:var(--bad);font-size:.85rem;min-height:1.2em;margin-top:6px}
+.dlg-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap}
+footer{border-top:1px solid var(--line);padding:22px 0;color:var(--ink-2);font-size:.85rem}
+.hint{color:var(--ink-2);font-size:.88rem}
+@media(max-width:620px){.who{position:static;display:block;margin:0 0 12px;text-align:left}.hero{padding-top:16px}}
+@media print{.tabs-bar,.submit-bar,.who{display:none}.panel[hidden]{display:block}}
+
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <button class="chip who" id="who" type="button" aria-label="Cambiar alumno o grupo">👤 Identifícate</button>
+    <span class="tag">IB2301 · Autoocupació i emprenedoria</span>
+    <h1>UD3 · Contabilidad básica y documentación comercial</h1>
+    <p>Nueve sesiones con ejemplos del sector náutico de Menorca, actividades que se corrigen solas y recursos para ir más lejos.</p>
+  </div>
+</header>
+<div class="tabs-bar"><div class="wrap"><div class="tabs" id="tabs" role="tablist" aria-label="Sesiones de la unidad"></div></div></div>
+<main class="wrap" id="app"></main>
+<footer><div class="wrap">Material formativo del módulo IB2301. Las cifras, tipos y plazos son de octubre de 2026 y cambian cada año: antes de usarlos en un trámite real, compruébalos en la fuente oficial.</div></footer>
+
+<dialog id="idDlg" aria-labelledby="idTitle">
+  <form id="idForm" method="dialog" novalidate>
+    <h3 id="idTitle">Antes de empezar</h3>
+    <p class="hint">Tu profesor recibirá el resultado de cada sesión con estos datos.</p>
+    <label class="f" for="idName">Nombre y apellidos</label>
+    <input class="t" id="idName" autocomplete="name" maxlength="80" required>
+    <label class="f" for="idGroup">Código del grupo</label>
+    <input class="t" id="idGroup" maxlength="20" autocomplete="off" required>
+    <div class="err" id="idErr" role="alert"></div>
+    <div class="dlg-actions"><button type="button" class="btn sec" id="idCancel">Ahora no</button><button class="btn" type="submit">Guardar y continuar</button></div>
+  </form>
+</dialog>
+<dialog id="cfDlg" aria-labelledby="cfTitle">
+  <form method="dialog" onsubmit="return false">
+    <h3 id="cfTitle"></h3><p id="cfText"></p>
+    <div class="dlg-actions"><button type="button" class="btn sec" id="cfNo">Cancelar</button><button type="button" class="btn" id="cfOk">Continuar</button></div>
+  </form>
+</dialog>
+<script>
+/* ===== CONTENIDO · UD3 · IB2301 Autoocupació i emprenedoria ===== */
+const SESSIONS = [
+/* ---------------------------------------------------------- SESIÓN 17 */
+{
+ id:'s17', n:17, block:'B07', title:'El patrimonio y los principios contables', ce:'3a',
+ goals:[
+  'Explicar para qué sirve la contabilidad en un negocio náutico.',
+  'Distinguir activo, pasivo y patrimonio neto, y lo corriente de lo no corriente.',
+  'Aplicar los principios de devengo, prudencia, no compensación y empresa en funcionamiento.'],
+ theory:`
+ <details class="acc" open><summary>Para qué sirve la contabilidad</summary><div class="body">
+  <p>La contabilidad <b>registra las operaciones</b> de la empresa y las resume para saber qué tiene, qué debe y cuánto gana. La usan los dueños para decidir, los bancos para conceder préstamos y la Agencia Tributaria para comprobar los impuestos. Su objetivo es la <b>imagen fiel</b>: reflejar con veracidad el patrimonio y los resultados.</p>
+  <div class="callout info"><b class="t">Analogía</b>El balance es una fotografía del barco amarrado: qué tiene a bordo, qué debe y qué es de los dueños. La cuenta de pérdidas y ganancias es la película del viaje.</div>
+ </div></details>
+ <details class="acc"><summary>El patrimonio: activo, pasivo y patrimonio neto</summary><div class="body">
+  <p>Todo lo que tiene la empresa se financia con dinero propio o ajeno:</p>
+  <p><b>Activo = Pasivo + Patrimonio neto</b></p>
+  <ul><li><b>Activo:</b> bienes y derechos (nave, maquinaria, recambios, clientes, bancos).</li><li><b>Pasivo:</b> deudas (préstamos, proveedores, Hacienda).</li><li><b>Patrimonio neto:</b> lo que es de los dueños: capital, reservas y resultados.</li></ul>
+  <p><b>Corriente</b> es lo que se cobra, se paga o se consume en un año o menos. <b>No corriente</b> es lo que se mantiene más de un año.</p>
+  <div class="table-wrap"><table>
+   <tr><th>Activo</th><th>€</th><th>Patrimonio neto y pasivo</th><th>€</th></tr>
+   <tr><td>Nave (no corriente)</td><td>200.000</td><td>Capital y reservas</td><td>150.000</td></tr>
+   <tr><td>Maquinaria de varadero (no corriente)</td><td>100.000</td><td>Préstamo a cinco años (pasivo no corriente)</td><td>200.000</td></tr>
+   <tr><td>Existencias de recambios (corriente)</td><td>60.000</td><td>Proveedores (pasivo corriente)</td><td>70.000</td></tr>
+   <tr><td>Clientes (corriente)</td><td>40.000</td><td>Hacienda Pública acreedora (pasivo corriente)</td><td>30.000</td></tr>
+   <tr><td>Bancos (corriente)</td><td>50.000</td><td></td><td></td></tr>
+   <tr><td><b>Total</b></td><td><b>450.000</b></td><td><b>Total</b></td><td><b>450.000</b></td></tr>
+  </table></div>
+  <p class="hint">Caso ficticio: Varadero Tramuntana S.L., Maó. Se reutiliza en la sesión 20.</p>
+ </div></details>
+ <details class="acc"><summary>Los principios contables</summary><div class="body">
+  <div class="table-wrap"><table>
+   <tr><th>Principio</th><th>Qué exige</th></tr>
+   <tr><td><b>Empresa en funcionamiento</b></td><td>Valorar suponiendo que la empresa seguirá.</td></tr>
+   <tr><td><b>Devengo</b></td><td>Registrar cuando ocurre el hecho, no cuando se cobra o se paga.</td></tr>
+   <tr><td><b>Uniformidad</b></td><td>Mantener los criterios en el tiempo.</td></tr>
+   <tr><td><b>Prudencia</b></td><td>Contar la pérdida probable en cuanto se conoce.</td></tr>
+   <tr><td><b>No compensación</b></td><td>No restar saldos opuestos: cada partida aparece por separado.</td></tr>
+   <tr><td><b>Importancia relativa</b></td><td>Se puede ignorar lo que no afecta a la imagen fiel.</td></tr>
+  </table></div>
+  <p><b>Para pensar:</b> si facturas una reparación el 20 de diciembre y la cobras en febrero, ¿de qué ejercicio es el ingreso?</p>
+ </div></details>`,
+ activities:[
+  { id:'s17a1', code:'A1', kind:'auto', title:'Aplica el principio contable', ui:'select',
+    intro:'Para cada caso, elige el principio que se aplica.',
+    opts:['Prudencia','Devengo','No compensación','Empresa en funcionamiento','Uniformidad','Importancia relativa'],
+    items:[
+     {q:'Se conoce una reclamación probable por una reparación defectuosa y se registra la pérdida ya.',a:0,why:'La prudencia obliga a contar la pérdida probable en cuanto se conoce.'},
+     {q:'Una reparación se factura el 20 de diciembre y se cobra en febrero: el ingreso es de diciembre.',a:1,why:'El devengo imputa el ingreso al momento en que ocurre el hecho, no al cobro.'},
+     {q:'Se deben 2.000 € a un proveedor y un cliente debe 1.200 €: aparecen los dos saldos, sin restarlos.',a:2,why:'La no compensación impide restar activos con pasivos.'},
+     {q:'La maquinaria del taller no se valora a precio de liquidación.',a:3,why:'Se supone que la empresa seguirá funcionando.'},
+     {q:'Cada año se amortiza la maquinaria con el mismo método.',a:4,why:'La uniformidad mantiene los criterios en el tiempo.'},
+     {q:'No se detalla en un apartado propio un gasto de pocos euros.',a:5,why:'Lo irrelevante puede omitirse por importancia relativa.'}
+    ]},
+  { id:'s17a2', code:'A2', kind:'auto', title:'Clasifica los elementos del balance', ui:'grid',
+    intro:'Indica en qué masa del balance va cada elemento.',
+    grid:{
+     cols:[{name:'Masa',opts:['Activo no corriente','Activo corriente','Patrimonio neto','Pasivo no corriente','Pasivo corriente']}],
+     rows:[
+      {label:'Maquinaria de varadero',a:[0]},
+      {label:'Existencias de recambios',a:[1]},
+      {label:'Clientes',a:[1]},
+      {label:'Capital social',a:[2]},
+      {label:'Préstamo a cinco años',a:[3]},
+      {label:'Proveedores',a:[4]}
+     ]},
+    extra:[
+     {q:'Una empresa tiene un activo de 80.000 € y deudas por 50.000 €. Su patrimonio neto es…',opts:['130.000 €','30.000 €','50.000 €','80.000 €'],a:1,why:'Patrimonio neto = activo − pasivo = 80.000 − 50.000 = 30.000 €.'}
+    ]},
+  { id:'s17a3', code:'A3', kind:'aula', title:'El balance de mi negocio',
+    desc:'En grupos, elaborad un balance sencillo del negocio náutico de la IPO II con al menos tres elementos de activo, uno de pasivo y el patrimonio neto. Comprobad que el activo es igual al pasivo más el patrimonio neto.'},
+  { id:'s17q', code:'Extra', kind:'auto', title:'Repaso rápido de la sesión', ui:'radio',
+    intro:'Cuatro preguntas para comprobar lo que has aprendido.',
+    items:[
+     {q:'La ecuación del patrimonio es…',opts:['Activo = Pasivo − Patrimonio neto','Activo = Pasivo + Patrimonio neto','Pasivo = Activo + Patrimonio neto','Patrimonio neto = Activo + Pasivo'],a:1,why:'Todo el activo se financia con deudas o con patrimonio propio.'},
+     {q:'El objetivo de las cuentas anuales es…',opts:['Pagar menos impuestos','La imagen fiel','Aumentar el beneficio','Ocultar las deudas'],a:1,why:'Las cuentas deben reflejar con veracidad el patrimonio y los resultados.'},
+     {q:'Un préstamo que se devolverá en cinco años es…',opts:['Activo corriente','Patrimonio neto','Pasivo no corriente','Pasivo corriente'],a:2,why:'Es una deuda que se mantiene más de un año.'},
+     {q:'Tener mucho activo significa…',opts:['Que se gana mucho dinero','Que no hay deudas','Nada por sí solo sobre el beneficio','Que el patrimonio neto es alto'],a:2,why:'El activo mide lo que se tiene, no lo que se gana.'}
+    ]}
+ ]
+},
+/* ---------------------------------------------------------- SESIÓN 18 */
+{
+ id:'s18', n:18, block:'B07', title:'El PGC de PYMES', ce:'3a',
+ goals:[
+  'Reconocer las cinco partes del PGC de PYMES y cuáles son obligatorias.',
+  'Decidir si una empresa puede aplicar el PGC de PYMES y los criterios de microempresa.',
+  'Explicar los criterios de valoración y los componentes de las cuentas anuales.'],
+ theory:`
+ <details class="acc" open><summary>Las cinco partes del PGC de PYMES</summary><div class="body">
+  <p>El Plan General de Contabilidad de PYMES se aprobó por el <b>Real Decreto 1515/2007</b>. Tiene cinco partes:</p>
+  <ol><li>Marco conceptual.</li><li>Normas de registro y valoración.</li><li>Cuentas anuales.</li><li>Cuadro de cuentas.</li><li>Definiciones y relaciones contables.</li></ol>
+  <p>Las <b>tres primeras son obligatorias</b>. La cuarta y la quinta son voluntarias, aunque muy recomendables.</p>
+ </div></details>
+ <details class="acc"><summary>¿Quién puede aplicarlo? PYMES y microempresas</summary><div class="body">
+  <p>Puede aplicar el PGC de PYMES la empresa que, durante <b>dos ejercicios consecutivos</b>, cumpla al cierre <b>al menos dos</b> de las tres condiciones:</p>
+  <div class="table-wrap"><table>
+   <tr><th>Criterio</th><th>PGC de PYMES</th><th>Microempresa</th></tr>
+   <tr><td>Activo total</td><td>≤ 2.850.000 €</td><td>≤ 1.000.000 €</td></tr>
+   <tr><td>Cifra anual de negocios</td><td>≤ 5.700.000 €</td><td>≤ 2.000.000 €</td></tr>
+   <tr><td>Personas empleadas de media</td><td>≤ 50</td><td>≤ 10</td></tr>
+  </table></div>
+  <p>Las microempresas pueden aplicar criterios simplificados.</p>
+ </div></details>
+ <details class="acc"><summary>Valoración y cuentas anuales</summary><div class="body">
+  <ul><li><b>Coste histórico o precio de adquisición:</b> lo pagado, más los gastos de instalación.</li><li><b>Valor razonable:</b> el precio que se recibiría al vender en una operación ordenada entre partes informadas.</li><li><b>Valor neto realizable:</b> lo que se obtiene al vender, restando los costes de venta.</li></ul>
+  <p>Las <b>cuentas anuales</b> son el balance, la cuenta de pérdidas y ganancias y la memoria. El estado de cambios en el patrimonio neto no es obligatorio con balance abreviado. Se formulan en los <b>tres meses</b> siguientes al cierre. La información debe ser relevante, fiable, comparable y clara.</p>
+ </div></details>`,
+ activities:[
+  { id:'s18a1', code:'A1', kind:'auto', title:'¿PGC de PYMES? ¿Microempresa?', ui:'grid',
+    intro:'Supón que cada empresa cumple los datos dos años seguidos. Indica si puede aplicar cada marco.',
+    grid:{
+     cols:[{name:'PGC de PYMES',opts:['Sí','No']},{name:'Microempresa',opts:['Sí','No']}],
+     rows:[
+      {label:'Varadero Tramuntana: activo 450.000 €, ventas 620.000 €, 4 personas',a:[0,0]},
+      {label:'Chárter Ciutadella: activo 1,2 M€, ventas 2,2 M€, 8 personas',a:[0,1]},
+      {label:'Taller de Es Castell: activo 900.000 €, ventas 2,5 M€, 9 personas',a:[0,0]},
+      {label:'Astillero: activo 3 M€, ventas 6 M€, 40 personas',a:[1,1]}
+     ]},
+    extra:[
+     {q:'¿Cuántas de las tres condiciones hay que cumplir?',opts:['Una','Al menos dos','Las tres','Ninguna en concreto'],a:1,why:'Basta con cumplir al menos dos de las tres.'}
+    ]},
+  { id:'s18a2', code:'A2', kind:'auto', title:'Test del PGC de PYMES', ui:'radio',
+    intro:'Cuatro preguntas sobre la estructura del plan.',
+    items:[
+     {q:'¿Cuántas partes tiene el PGC de PYMES?',opts:['Tres','Cuatro','Cinco','Siete'],a:2,why:'Tiene cinco partes.'},
+     {q:'¿Cuáles son obligatorias?',opts:['Las dos últimas','Las tres primeras','Solo la tercera','Todas'],a:1,why:'Son obligatorias las tres primeras. La cuarta y la quinta son voluntarias.'},
+     {q:'El criterio que mide lo que se obtiene al vender, restando los costes de venta, es el…',opts:['Coste histórico','Valor razonable','Valor neto realizable','Valor contable'],a:2,why:'Es el valor neto realizable.'},
+     {q:'Las cuentas anuales se formulan en los… siguientes al cierre.',opts:['Tres meses','Un mes','Seis meses','Doce meses'],a:0,why:'Se formulan en los tres meses siguientes al cierre.'}
+    ]},
+  { id:'s18a3', code:'A3', kind:'aula', title:'Límites de PYMES y microempresa',
+    desc:'Una empresa de chárter de Ciutadella tiene 1,2 M€ de activo, 2,2 M€ de ventas y 8 personas empleadas. Razonad en grupo si puede aplicar el PGC de PYMES y si es microempresa. ¿Qué pasaría si superara los límites un solo año?'},
+  { id:'s18a4', code:'A4', kind:'classroom', title:'Informe sobre fiabilidad e integridad',
+    desc:'Redacta entre 10 y 15 líneas explicando por qué omitir el registro de un stock de resinas caducadas atenta contra la fiabilidad y la integridad de la información contable. Entrega por Classroom.',
+    points:['Explica qué significa que la información sea fiable.','Relaciona el caso con el principio de prudencia.','Indica qué consecuencia tendría para un banco que lea las cuentas.']}
+ ]
+},
+/* ---------------------------------------------------------- SESIÓN 19 */
+{
+ id:'s19', n:19, block:'B08', title:'Registrar operaciones: la partida doble', ce:'3a',
+ goals:[
+  'Explicar la partida doble: Debe y Haber.',
+  'Reconocer los grupos del cuadro de cuentas.',
+  'Contabilizar asientos sencillos con IVA en el Libro Diario y pasarlos al Libro Mayor.'],
+ theory:`
+ <details class="acc" open><summary>La partida doble</summary><div class="body">
+  <p>Cada operación se anota a la vez en el <b>Debe</b> de unas cuentas y en el <b>Haber</b> de otras, por el mismo importe total. <b>Debe</b> y <b>Haber</b> son solo el lado izquierdo y el derecho de la cuenta, no significan «deber» ni «tener».</p>
+  <p><b>Regla práctica:</b> los gastos y las inversiones que entran en la empresa suelen ir al Debe. Los ingresos y las deudas contraídas suelen ir al Haber.</p>
+  <div class="callout info"><b class="t">Analogía</b>La partida doble es una balanza: cada peso que añades a un lado aparece igual en el otro.</div>
+ </div></details>
+ <details class="acc"><summary>El cuadro de cuentas</summary><div class="body">
+  <div class="table-wrap"><table>
+   <tr><th>Grupo</th><th>Contenido</th><th>Ejemplos</th></tr>
+   <tr><td>1</td><td>Financiación básica</td><td>Capital, reservas, deudas a largo plazo</td></tr>
+   <tr><td>2</td><td>Inmovilizado</td><td>Maquinaria, construcciones</td></tr>
+   <tr><td>3</td><td>Existencias</td><td>Mercaderías</td></tr>
+   <tr><td>4</td><td>Acreedores y deudores comerciales</td><td>Proveedores (400), clientes (430), IVA</td></tr>
+   <tr><td>5</td><td>Cuentas financieras</td><td>Bancos (572), caja</td></tr>
+   <tr><td>6</td><td>Compras y gastos</td><td>Compras (600), sueldos (640)</td></tr>
+   <tr><td>7</td><td>Ventas e ingresos</td><td>Ventas (700), prestación de servicios (705)</td></tr>
+  </table></div>
+  <p class="hint">Los grupos 8 y 9 (gastos e ingresos imputados al patrimonio neto) se ven en cursos posteriores.</p>
+ </div></details>
+ <details class="acc"><summary>Asientos con IVA y libros Diario y Mayor</summary><div class="body">
+  <p>Mantenimiento Náutico Ciutadella S.L. (caso ficticio), en enero, con IVA al 21 %:</p>
+  <div class="table-wrap"><table>
+   <tr><th>Operación</th><th>Debe</th><th>Haber</th></tr>
+   <tr><td>1. Compra de repuestos a crédito: 2.300 € + 483 € de IVA</td><td>(600) Compras 2.300<br>(472) IVA soportado 483</td><td>(400) Proveedores 2.783</td></tr>
+   <tr><td>2. Invernaje cobrado por banco: 6.000 € + 1.260 € de IVA</td><td>(572) Bancos 7.260</td><td>(705) Prestación de servicios 6.000<br>(477) IVA repercutido 1.260</td></tr>
+   <tr><td>3. Pago al proveedor por transferencia</td><td>(400) Proveedores 2.783</td><td>(572) Bancos 2.783</td></tr>
+  </table></div>
+  <p>Los asientos se anotan por orden de fecha en el <b>Libro Diario</b> y después se pasan al <b>Libro Mayor</b>, una cuenta por página con forma de T.</p>
+ </div></details>`,
+ activities:[
+  { id:'s19a1', code:'A1', kind:'auto', title:'¿Qué cuenta va al Debe y cuál al Haber?', ui:'grid',
+    intro:'Para cada operación (sin IVA para simplificar), elige la cuenta del Debe y la del Haber.',
+    grid:{
+     cols:[
+      {name:'Debe',opts:['(600) Compras','(430) Clientes','(572) Bancos','(400) Proveedores','(640) Sueldos y salarios']},
+      {name:'Haber',opts:['(400) Proveedores','(572) Bancos','(700) Ventas','(705) Prestación de servicios']}],
+     rows:[
+      {label:'Compra de repuestos a crédito',a:[0,0]},
+      {label:'Servicio de invernaje cobrado por banco',a:[2,3]},
+      {label:'Pago a un proveedor por banco',a:[3,1]},
+      {label:'Venta de hélices a crédito',a:[1,2]},
+      {label:'Pago de salarios por banco',a:[4,1]}
+     ]}},
+  { id:'s19a2', code:'A2', kind:'auto', title:'Grupos del cuadro de cuentas', ui:'grid',
+    intro:'Indica el grupo al que pertenece cada elemento.',
+    grid:{
+     cols:[{name:'Grupo',opts:['1','2','3','4','5','6','7']}],
+     rows:[
+      {label:'Maquinaria',a:[1]},
+      {label:'Recambios en almacén',a:[2]},
+      {label:'Clientes',a:[3]},
+      {label:'Bancos',a:[4]},
+      {label:'Compras',a:[5]},
+      {label:'Ventas',a:[6]}
+     ]}},
+  { id:'s19a3', code:'A3', kind:'auto', title:'Test de partida doble', ui:'radio',
+    intro:'Cuatro preguntas.',
+    items:[
+     {q:'En todo asiento…',opts:['El Debe es mayor que el Haber','El Debe es igual al Haber','El Haber es mayor que el Debe','No hay relación'],a:1,why:'En la partida doble las sumas del Debe y del Haber coinciden.'},
+     {q:'El IVA de una compra (IVA soportado) se anota en…',opts:['El Haber','El Debe','No se anota','El Libro de Actas'],a:1,why:'El IVA soportado va al Debe, en la cuenta 472.'},
+     {q:'El IVA de una venta (IVA repercutido) se anota en…',opts:['El Debe','No se anota','El Haber','La cuenta de Bancos'],a:2,why:'El IVA repercutido va al Haber, en la cuenta 477.'},
+     {q:'El Libro Diario recoge…',opts:['Los saldos de cada cuenta','Los asientos por orden cronológico','Solo las ventas','Los socios'],a:1,why:'El Diario es el registro cronológico. El Mayor agrupa por cuenta.'}
+    ]},
+  { id:'s19a4', code:'A4', kind:'aula', title:'Contabiliza dos operaciones con IVA',
+    desc:'Compra de repuestos de acero inoxidable por 1.900 € más IVA pagados por banco. Venta de hélices a un cliente a crédito por 3.600 € más IVA. Usad las cuentas 600, 472, 572, 430, 700 y 477. Comprobad que el Debe es igual al Haber en cada asiento.'}
+ ]
+},
+
+/* ---------------------------------------------------------- SESIÓN 20 */
+{
+ id:'s20', n:20, block:'B08', title:'Comprobar y analizar: balance de comprobación y ratios', ce:'3a, 3b',
+ goals:[
+  'Elaborar un balance de comprobación de sumas y saldos.',
+  'Calcular liquidez, solvencia, endeudamiento y rentabilidad.',
+  'Interpretar el margen bruto de un negocio.'],
+ theory:`
+ <details class="acc" open><summary>El balance de comprobación</summary><div class="body">
+  <p>Recoge todas las cuentas del Mayor con sus sumas y sus saldos. Sirve para <b>detectar errores</b> de transcripción: la suma del Debe debe ser igual a la del Haber.</p>
+  <div class="table-wrap"><table>
+   <tr><th>Cuenta</th><th>Debe</th><th>Haber</th><th>Saldo</th></tr>
+   <tr><td>(600) Compras</td><td>2.300</td><td></td><td>2.300 deudor</td></tr>
+   <tr><td>(472) IVA soportado</td><td>483</td><td></td><td>483 deudor</td></tr>
+   <tr><td>(400) Proveedores</td><td>2.783</td><td>2.783</td><td>0</td></tr>
+   <tr><td>(572) Bancos</td><td>7.260</td><td>2.783</td><td>4.477 deudor</td></tr>
+   <tr><td>(705) Prestación de servicios</td><td></td><td>6.000</td><td>6.000 acreedor</td></tr>
+   <tr><td>(477) IVA repercutido</td><td></td><td>1.260</td><td>1.260 acreedor</td></tr>
+   <tr><td><b>Sumas</b></td><td><b>12.826</b></td><td><b>12.826</b></td><td></td></tr>
+  </table></div>
+ </div></details>
+ <details class="acc"><summary>Liquidez, solvencia y rentabilidad (criterio 3b)</summary><div class="body">
+  <p>Con el balance de Varadero Tramuntana de la sesión 17 (resultado ficticio de 36.000 €):</p>
+  <div class="table-wrap"><table>
+   <tr><th>Ratio</th><th>Fórmula</th><th>Resultado</th><th>Lectura</th></tr>
+   <tr><td><b>Liquidez</b></td><td>Activo corriente / Pasivo corriente = 150.000 / 100.000</td><td>1,5</td><td>Por cada euro a pagar en un año tiene 1,50 €.</td></tr>
+   <tr><td><b>Solvencia</b></td><td>Activo total / Pasivo exigible = 450.000 / 300.000</td><td>1,5</td><td>Sus activos cubren una vez y media sus deudas.</td></tr>
+   <tr><td><b>Endeudamiento</b></td><td>Pasivo exigible / Patrimonio neto = 300.000 / 150.000</td><td>2,0</td><td>Debe el doble de lo que es suyo.</td></tr>
+   <tr><td><b>Rentabilidad financiera</b></td><td>Resultado / Patrimonio neto = 36.000 / 150.000</td><td>24 %</td><td>Beneficio sobre el dinero propio.</td></tr>
+   <tr><td><b>Rentabilidad económica</b></td><td>Resultado / Activo total = 36.000 / 450.000</td><td>8 %</td><td>Beneficio sobre lo invertido.</td></tr>
+  </table></div>
+  <p>Los valores «buenos» dependen del sector. Como orientación, una solvencia entre 1,5 y 2,5 suele considerarse razonable.</p>
+ </div></details>
+ <details class="acc"><summary>El margen bruto</summary><div class="body">
+  <p>Un servicio de invernaje factura 160.000 € al año y tiene 45.000 € de costes directos de aprovisionamiento.</p>
+  <ul><li>Margen bruto: 160.000 − 45.000 = <b>115.000 €</b>.</li><li>Margen bruto en %: 115.000 / 160.000 = <b>71,88 %</b>.</li></ul>
+  <p>Si el margen es bajo, no alcanza para cubrir salarios ni alquiler.</p>
+ </div></details>`,
+ activities:[
+  { id:'s20a1', code:'A1', kind:'auto', title:'Calcula los ratios de Varadero Tramuntana', ui:'radio',
+    intro:'Datos: activo corriente 150.000 €, pasivo corriente 100.000 €, activo total 450.000 €, pasivo exigible 300.000 €, patrimonio neto 150.000 €, resultado 36.000 €.',
+    items:[
+     {q:'Liquidez (activo corriente / pasivo corriente)',opts:['0,67','1,5','2,0','3,0'],a:1,why:'150.000 / 100.000 = 1,5.'},
+     {q:'Solvencia (activo total / pasivo exigible)',opts:['0,67','1,5','2,0','3,0'],a:1,why:'450.000 / 300.000 = 1,5.'},
+     {q:'Endeudamiento (pasivo exigible / patrimonio neto)',opts:['0,5','1,5','2,0','3,0'],a:2,why:'300.000 / 150.000 = 2,0.'},
+     {q:'Rentabilidad financiera (resultado / patrimonio neto)',opts:['8 %','12 %','24 %','36 %'],a:2,why:'36.000 / 150.000 = 24 %.'},
+     {q:'Rentabilidad económica (resultado / activo total)',opts:['8 %','12 %','24 %','36 %'],a:0,why:'36.000 / 450.000 = 8 %.'}
+    ]},
+  { id:'s20a2', code:'A2', kind:'auto', title:'Interpreta e identifica errores', ui:'radio',
+    intro:'Cuatro preguntas de interpretación.',
+    items:[
+     {q:'Una empresa tiene activo corriente de 90.000 € y pasivo corriente de 120.000 €. Su liquidez es…',opts:['1,33, con holgura','0,75, con riesgo de no pagar a corto plazo','1,0, equilibrada','No se puede calcular'],a:1,why:'90.000 / 120.000 = 0,75. Por debajo de 1 puede tener problemas para pagar a corto plazo.'},
+     {q:'Un balance de comprobación suma 12.826 € en el Debe y 12.800 € en el Haber. Esto indica…',opts:['Que todo es correcto','Que hay un error de transcripción','Que sobra dinero','Que falta IVA obligatoriamente'],a:1,why:'Las sumas deben coincidir. Una diferencia indica un error.'},
+     {q:'La liquidez mide la capacidad de pagar…',opts:['Todas las deudas con todos los activos','Las deudas a corto plazo','Los impuestos futuros','Los dividendos'],a:1,why:'La liquidez mira el corto plazo. La solvencia mira toda la deuda.'},
+     {q:'Un servicio factura 160.000 € con 45.000 € de costes directos. Su margen bruto es…',opts:['45.000 €','115.000 €','160.000 €','205.000 €'],a:1,why:'160.000 − 45.000 = 115.000 € (71,88 %).'}
+    ]},
+  { id:'s20a3', code:'A3', kind:'classroom', title:'Informe de solvencia de un varadero',
+    desc:'Con el balance de Varadero Tramuntana, redacta una página que interprete liquidez, solvencia, endeudamiento y rentabilidad, y diga si recomendarías a un banco prestarle 50.000 € más. Entrega por Classroom.',
+    points:['Calcula los cinco ratios.','Interpreta cada uno con una frase.','Razona tu recomendación y di qué datos más pedirías.']}
+ ]
+},
+/* ---------------------------------------------------------- SESIÓN 21 */
+{
+ id:'s21', n:21, block:'B09', title:'El circuito documental y la factura', ce:'3c',
+ goals:[
+  'Ordenar y distinguir presupuesto, nota de pedido, albarán, factura y recibo.',
+  'Rellenar una factura completa y reconocer cuándo basta una simplificada.',
+  'Saber cuánto tiempo hay que conservar las facturas.'],
+ theory:`
+ <details class="acc" open><summary>El recorrido de una venta</summary><div class="body">
+  <p>Chárter y Servicios Náuticos Fornells S.L. (caso ficticio) encarga la reparación de una fuga en la bodega de un catamarán:</p>
+  <div class="table-wrap"><table>
+   <tr><th>Paso</th><th>Documento</th><th>Quién lo emite</th><th>Qué hace</th></tr>
+   <tr><td>1</td><td>Presupuesto</td><td>Taller</td><td>Ofrece 800 € + IVA, con validez de 15 días.</td></tr>
+   <tr><td>2</td><td>Nota de pedido</td><td>Cliente</td><td>Acepta y encarga el trabajo.</td></tr>
+   <tr><td>3</td><td>Albarán</td><td>Taller</td><td>El cliente firma la recepción.</td></tr>
+   <tr><td>4</td><td>Factura</td><td>Taller</td><td>800 € + 168 € de IVA (21 %) = 968 €.</td></tr>
+   <tr><td>5</td><td>Recibo</td><td>Taller</td><td>Se entrega al cobrar los 968 €.</td></tr>
+  </table></div>
+  <p>El albarán prueba la entrega, pero <b>no sirve para deducir el IVA</b>: solo lo permite la factura.</p>
+ </div></details>
+ <details class="acc"><summary>Factura completa y factura simplificada</summary><div class="body">
+  <p>La <b>factura completa</b> (Reglamento de facturación, RD 1619/2012) lleva: número correlativo, fecha de expedición, nombre, NIF y domicilio del emisor y del cliente, descripción de la operación, base imponible, tipo de IVA y cuota, y total.</p>
+  <p>La <b>factura simplificada</b> puede emitirse hasta <b>400 €</b> (IVA incluido). También hasta <b>3.000 €</b> en ciertos casos, como ventas al por menor, hostelería o transporte de personas. No lleva datos del cliente, pero indica el tipo de IVA o la expresión «IVA incluido». Si el cliente es empresario y quiere deducir el IVA, puede pedir factura completa.</p>
+  <p><b>Conservación:</b> las facturas se guardan al menos cuatro años (plazo de comprobación de Hacienda). El Código de Comercio exige seis años para la documentación contable, y en la práctica se guardan seis.</p>
+ </div></details>
+ <details class="acc"><summary>Analogía</summary><div class="body">
+  <p>El circuito documental es la ruta de un barco por puertos: el presupuesto es el plan de ruta, la nota de pedido es el zarpe, el albarán es la llegada firmada, la factura es el parte oficial de la travesía y el recibo cierra el viaje.</p>
+ </div></details>`,
+ activities:[
+  { id:'s21a1', code:'A1', kind:'auto', title:'Ordena el circuito documental', ui:'grid',
+    intro:'Asigna a cada documento su orden en una venta (1º es el primero).',
+    grid:{
+     cols:[{name:'Orden',opts:['1º','2º','3º','4º','5º']}],
+     rows:[
+      {label:'Presupuesto',a:[0]},
+      {label:'Nota de pedido',a:[1]},
+      {label:'Albarán',a:[2]},
+      {label:'Factura',a:[3]},
+      {label:'Recibo',a:[4]}
+     ]}},
+  { id:'s21a2', code:'A2', kind:'auto', title:'¿Factura completa o simplificada?', ui:'select',
+    intro:'Elige el tipo de factura adecuado en cada caso.',
+    opts:['Factura completa','Factura simplificada'],
+    items:[
+     {q:'Limpieza de casco a un particular que paga 350 € en efectivo.',a:1,why:'No supera 400 € y el cliente es un particular.'},
+     {q:'Reparación de 600 € a una empresa que quiere deducir el IVA.',a:0,why:'Supera 400 € y el cliente necesita deducir el IVA.'},
+     {q:'Venta de un ancla a una empresa por 3.500 €.',a:0,why:'Supera 3.000 € y es una venta entre empresas.'},
+     {q:'Ticket de 120 € a un cliente anónimo en la tienda.',a:1,why:'Es un importe pequeño sin datos del cliente.'},
+     {q:'Servicio de 2.000 € a otra pyme.',a:0,why:'Entre empresarios, el cliente debe poder deducir el IVA.'}
+    ]},
+  { id:'s21a3', code:'A3', kind:'auto', title:'Contenido de una factura completa', ui:'radio',
+    intro:'Cuatro preguntas.',
+    items:[
+     {q:'¿Cuáles son datos obligatorios de una factura completa?',ui:'multi',opts:['Número correlativo','Fecha de expedición','NIF del emisor y del cliente','Base imponible, tipo y cuota de IVA','Firma manuscrita del cliente','Sello del Registro Mercantil'],a:[0,1,2,3],why:'La firma del cliente y el sello del Registro no son obligatorios.'},
+     {q:'El albarán sirve para…',opts:['Deducir el IVA','Probar la entrega','Sustituir la factura','Cobrar sin factura'],a:1,why:'El albarán prueba la entrega. No da derecho a deducir IVA.'},
+     {q:'La factura de 800 € + 21 % de IVA suma…',opts:['821 €','968 €','1.008 €','800 €'],a:1,why:'800 + 168 = 968 €.'},
+     {q:'El Código de Comercio exige conservar la documentación contable…',opts:['Un año','Cuatro años','Seis años','Diez años'],a:2,why:'Seis años. Hacienda exige al menos cuatro.'}
+    ]},
+  { id:'s21a4', code:'A4', kind:'aula', title:'Rellena una factura',
+    desc:'Con los datos de Chárter y Servicios Náuticos Fornells S.L., redactad la factura de la reparación: número, fecha, datos del emisor y del cliente, concepto, base imponible, IVA y total. Comprobad que contiene todos los datos obligatorios.'}
+ ]
+},
+/* ---------------------------------------------------------- SESIÓN 22 */
+{
+ id:'s22', n:22, block:'B09', title:'Medios de pago y cobro', ce:'3d',
+ goals:[
+  'Identificar los medios de pago y cobro habituales y sus justificantes.',
+  'Diferenciar el pago al contado del pago aplazado.',
+  'Elegir un medio de cobro adecuado y reconocer intentos de fraude (phishing).'],
+ theory:`
+ <details class="acc" open><summary>Medios de pago y cobro</summary><div class="body">
+  <div class="table-wrap"><table>
+   <tr><th>Medio</th><th>Cómo funciona</th><th>Cuidado con…</th></tr>
+   <tr><td><b>Efectivo</b></td><td>Entrega de billetes y monedas.</td><td>Límite legal de 1.000 € entre empresarios y profesionales.</td></tr>
+   <tr><td><b>Transferencia</b></td><td>Orden al banco de mover fondos.</td><td>Comprobar el IBAN.</td></tr>
+   <tr><td><b>Domiciliación SEPA</b></td><td>El cliente autoriza adeudos en su cuenta.</td><td>Puede devolverse el recibo.</td></tr>
+   <tr><td><b>Tarjeta y TPV</b></td><td>Cobro con tarjeta en el momento.</td><td>Comisión para el negocio.</td></tr>
+   <tr><td><b>Pasarela online y Bizum</b></td><td>Cobro de reservas por internet o móvil.</td><td>Comisión y seguridad de los datos.</td></tr>
+   <tr><td><b>Letra de cambio</b></td><td>La emite el vendedor y la acepta el cliente para pagar en una fecha.</td><td>Puede devolverse impagada.</td></tr>
+   <tr><td><b>Pagaré</b></td><td>El cliente firma una promesa de pago en una fecha.</td><td>Depende de la solvencia del cliente.</td></tr>
+  </table></div>
+ </div></details>
+ <details class="acc"><summary>Pago al contado y pago aplazado</summary><div class="body">
+  <p><b>Al contado:</b> se paga en el momento (efectivo, tarjeta, Bizum, transferencia el mismo día). <b>Aplazado:</b> se acuerda pagar más tarde, a 30 o 60 días, con letra o pagaré.</p>
+  <p>La Ley 3/2004 contra la morosidad fija un plazo máximo de pago de 30 días desde la entrega, ampliable por pacto hasta 60. Si no se paga a tiempo, se pueden reclamar intereses de demora.</p>
+  <p>Cada medio deja un <b>justificante</b>: la factura, el recibo, el comprobante de la transferencia, el resguardo del TPV o el extracto bancario.</p>
+ </div></details>
+ <details class="acc"><summary>Fraude y phishing</summary><div class="body">
+  <p>El <b>phishing</b> es un engaño para robar claves haciéndose pasar por el banco u otra entidad. Señales: urgencia, enlaces raros, faltas de ortografía y petición de claves o códigos. Verifica siempre llamando al número oficial.</p>
+  <p>Un fraude habitual es el <b>cambio de IBAN</b> en la factura de un proveedor. Confírmalo por otro canal antes de pagar a una cuenta nueva.</p>
+ </div></details>`,
+ activities:[
+  { id:'s22a1', code:'A1', kind:'auto', title:'Test de medios de pago', ui:'radio',
+    intro:'Cinco preguntas.',
+    items:[
+     {q:'La letra de cambio la emite…',opts:['El comprador','El vendedor','El banco','Hacienda'],a:1,why:'La emite el vendedor (librador) y la acepta el cliente.'},
+     {q:'El pagaré lo firma…',opts:['El vendedor','El deudor','El notario','El proveedor del banco'],a:1,why:'El pagaré es una promesa de pago firmada por el propio deudor.'},
+     {q:'El límite legal de pagos en efectivo entre empresarios es…',opts:['300 €','1.000 €','3.000 €','10.000 €'],a:1,why:'El límite general es de 1.000 €.'},
+     {q:'Un TPV sirve para…',opts:['Pagar el IVA','Cobrar con tarjeta','Emitir pagarés','Legalizar libros'],a:1,why:'El TPV es el terminal de cobro con tarjeta.'},
+     {q:'El plazo legal máximo de pago, salvo pacto, es de…',opts:['30 días','60 días','90 días','120 días'],a:0,why:'30 días desde la entrega, ampliable por pacto hasta 60.'}
+    ]},
+  { id:'s22a2', code:'A2', kind:'auto', title:'¿Contado o aplazado?', ui:'grid',
+    intro:'Clasifica cada forma de pago.',
+    grid:{
+     cols:[{name:'Pago',opts:['Al contado','Aplazado']}],
+     rows:[
+      {label:'Efectivo al entregar el trabajo',a:[0]},
+      {label:'Tarjeta en el TPV',a:[0]},
+      {label:'Bizum en el momento',a:[0]},
+      {label:'Pagaré a 30 días',a:[1]},
+      {label:'Letra de cambio a 60 días',a:[1]},
+      {label:'Transferencia pactada a 60 días',a:[1]}
+     ]}},
+  { id:'s22a3', code:'A3', kind:'auto', title:'Detecta el posible fraude', ui:'select',
+    intro:'Indica si cada mensaje parece un fraude o es legítimo.',
+    opts:['Posible fraude','Parece legítimo'],
+    items:[
+     {q:'SMS del banco: «Tu cuenta se bloqueará en una hora. Pulsa el enlace e introduce tu clave».',a:0,why:'Urgencia, enlace y petición de clave: señales de phishing.'},
+     {q:'Correo de un proveedor habitual que comunica un nuevo IBAN y pide pagar hoy.',a:0,why:'Un cambio de IBAN con prisa debe verificarse por otro canal.'},
+     {q:'Factura de tu proveedor de siempre, con el mismo IBAN de siempre y por el canal habitual.',a:1,why:'No hay cambios ni urgencia.'},
+     {q:'Llamada que dice ser del banco y pide el código que acabas de recibir por SMS.',a:0,why:'Nadie legítimo pide ese código.'}
+    ]},
+  { id:'s22a4', code:'A4', kind:'classroom', title:'Medios de cobro para una empresa de chárter',
+    desc:'Redacta una propuesta comparativa de dos páginas: pasarela de pago para reservas online frente a pagaré o transferencia para pagar a proveedores de mantenimiento a 60 días. Valora costes, seguridad y rapidez. Entrega por Classroom.',
+    points:['Describe las ventajas e inconvenientes de cada medio.','Valora comisiones y riesgo de fraude.','Concluye qué medio recomiendas en cada caso.']}
+ ]
+},
+
+/* ---------------------------------------------------------- SESIÓN 23 */
+{
+ id:'s23', n:23, block:'B10', title:'Libros contables obligatorios y legalización', ce:'3e',
+ goals:[
+  'Distinguir los libros mercantiles de los libros registro fiscales.',
+  'Saber qué libros corresponden a un autónomo y cuáles a una sociedad.',
+  'Explicar cómo y cuándo se legalizan los libros.'],
+ theory:`
+ <details class="acc" open><summary>Libros mercantiles</summary><div class="body">
+  <p>El empresario mercantil debe llevar contabilidad (Código de Comercio, arts. 25 y siguientes), con al menos dos libros: el <b>Libro Diario</b> y el <b>Libro de Inventarios y Cuentas Anuales</b>. Las sociedades de capital añaden el <b>Libro de Actas</b>. La S.L. lleva además el <b>libro registro de socios</b> y la S.A. el de acciones nominativas.</p>
+ </div></details>
+ <details class="acc"><summary>Libros registro fiscales</summary><div class="body">
+  <div class="table-wrap"><table>
+   <tr><th>Situación</th><th>Qué debe llevar</th></tr>
+   <tr><td>Actividad empresarial en estimación directa normal</td><td>Contabilidad ajustada al Código de Comercio</td></tr>
+   <tr><td>Actividad empresarial en estimación directa simplificada</td><td>Libro registro de ventas e ingresos, de compras y gastos y de bienes de inversión</td></tr>
+   <tr><td>Actividad profesional</td><td>Libro registro de ingresos, de gastos, de bienes de inversión y de provisiones de fondos y suplidos</td></tr>
+  </table></div>
+  <p>Quien presenta el modelo 303 lleva además los <b>libros registro de IVA</b>: facturas expedidas, facturas recibidas, bienes de inversión y ciertas operaciones intracomunitarias.</p>
+  <div class="callout info"><b class="t">Ojo</b>Quien lleva contabilidad ajustada al Código de Comercio no necesita, además, los libros registro del IRPF.</div>
+ </div></details>
+ <details class="acc"><summary>Legalización</summary><div class="body">
+  <p>Los libros mercantiles se presentan <b>telemáticamente</b> en el Registro Mercantil (en Menorca, el de las Illes Balears) dentro de los <b>cuatro meses</b> siguientes al cierre del ejercicio: hasta el <b>30 de abril</b> si el ejercicio es el año natural.</p>
+  <ol><li>Generar el fichero con los libros.</li><li>Firmarlo con certificado digital.</li><li>Enviarlo y descargar el justificante.</li></ol>
+  <p>Los libros y la documentación contable se conservan <b>seis años</b> desde el último asiento.</p>
+ </div></details>`,
+ activities:[
+  { id:'s23a1', code:'A1', kind:'auto', title:'Libros según la forma jurídica', ui:'grid',
+    intro:'Indica quién lleva cada libro.',
+    grid:{
+     cols:[{name:'Lo lleva',opts:['Autónomo en simplificada','Sociedad Limitada','Ambos']}],
+     rows:[
+      {label:'Libro de Actas',a:[1]},
+      {label:'Libro registro de socios',a:[1]},
+      {label:'Libro registro de ventas e ingresos (IRPF)',a:[0]},
+      {label:'Libro registro de compras y gastos (IRPF)',a:[0]},
+      {label:'Libros registro de IVA',a:[2]}
+     ]}},
+  { id:'s23a2', code:'A2', kind:'auto', title:'Ordena los pasos de la legalización', ui:'grid',
+    intro:'Asigna el orden de cada paso.',
+    grid:{
+     cols:[{name:'Orden',opts:['1º','2º','3º']}],
+     rows:[
+      {label:'Generar el fichero con los libros',a:[0]},
+      {label:'Firmar con certificado digital',a:[1]},
+      {label:'Enviar y descargar el justificante',a:[2]}
+     ]}},
+  { id:'s23a3', code:'A3', kind:'auto', title:'Test de libros y legalización', ui:'radio',
+    intro:'Cuatro preguntas.',
+    items:[
+     {q:'¿Qué libros son obligatorios para todo empresario mercantil con contabilidad formal?',ui:'multi',opts:['Libro Diario','Libro de Inventarios y Cuentas Anuales','Libro de Actas','Libro registro de socios'],a:[0,1],why:'El Libro de Actas y el de socios son propios de las sociedades.'},
+     {q:'El plazo para legalizar los libros es de…',opts:['Un mes','Tres meses','Cuatro meses desde el cierre','Un año'],a:2,why:'Cuatro meses desde el cierre del ejercicio.'},
+     {q:'La legalización se hace…',opts:['En papel, en el juzgado','Por vía telemática, en el Registro Mercantil','En el ayuntamiento','En la Seguridad Social'],a:1,why:'Es telemática y ante el Registro Mercantil.'},
+     {q:'Los libros se conservan…',opts:['Un año','Cuatro años','Seis años','No es obligatorio'],a:2,why:'El Código de Comercio exige conservarlos seis años.'}
+    ]},
+  { id:'s23a4', code:'A4', kind:'aula', title:'El autónomo mecánico',
+    desc:'Un mecánico náutico autónomo trabaja solo en estimación directa simplificada. Listad los libros que necesita y explicad por qué no necesita Libro de Actas. ¿Qué cambiaría si constituyera una S.L.?'}
+ ]
+},
+/* ---------------------------------------------------------- SESIÓN 24 */
+{
+ id:'s24', n:24, block:'B10', title:'Facturación digital: SIF, Veri*Factu y factura electrónica', ce:'3e, 3c',
+ goals:[
+  'Explicar qué es un sistema informático de facturación (SIF) y qué busca.',
+  'Describir qué es Veri*Factu y qué debe llevar la factura.',
+  'Situar la factura electrónica entre empresas y las fechas que aún pueden cambiar.'],
+ theory:`
+ <details class="acc" open><summary>El SIF</summary><div class="body">
+  <p>La Ley 11/2021 contra el fraude fiscal y el Real Decreto 1007/2023 obligan a que los programas de facturación garanticen la <b>integridad, conservación, accesibilidad, legibilidad, trazabilidad e inalterabilidad</b> de los registros. La Orden HAC/1177/2024 detalla los requisitos técnicos.</p>
+  <div class="callout info"><b class="t">Analogía</b>Un SIF es como la caja negra de un avión: lo registra todo y no se puede cambiar sin dejar huella.</div>
+ </div></details>
+ <details class="acc"><summary>Veri*Factu</summary><div class="body">
+  <p>Es la modalidad del SIF que <b>envía cada factura a la Agencia Tributaria</b> en el momento de emitirla. La factura lleva un <b>código QR</b> y la leyenda «VERI*FACTU» o «Factura verificable en la sede electrónica de la AEAT». La AEAT ofrece una aplicación gratuita para quien no quiera comprar un programa. Se accede con Cl@ve, DNI electrónico o certificado digital.</p>
+  <div class="callout warn"><b class="t">Fechas</b>Se han aplazado varias veces. Según las fuentes consultadas, la obligación llega el 1 de enero de 2027 para los contribuyentes del Impuesto sobre Sociedades y el 1 de julio de 2027 para el resto. Comprueba las fechas vigentes en la web de la AEAT.</div>
+ </div></details>
+ <details class="acc"><summary>Factura electrónica entre empresas</summary><div class="body">
+  <p>El Real Decreto 238/2026 regula la factura electrónica entre empresas (B2B). Será exigible 12 meses después de una orden ministerial para empresas con facturación superior a 8 millones de euros y 24 meses para las demás. Las fechas exactas dependen de esa orden.</p>
+  <p>No confundas: la factura electrónica es una <b>forma de enviar</b> la factura. Veri*Factu es el <b>control de Hacienda</b> sobre el programa.</p>
+ </div></details>`,
+ activities:[
+  { id:'s24a1', code:'A1', kind:'auto', title:'Test de SIF y Veri*Factu', ui:'radio',
+    intro:'Cuatro preguntas.',
+    items:[
+     {q:'Una factura emitida con Veri*Factu lleva…',opts:['Un sello en tinta de la AEAT','Un código QR y la leyenda Veri*Factu','Solo una firma manuscrita','Nada especial'],a:1,why:'Lleva código QR y la leyenda de verificación.'},
+     {q:'Un SIF debe garantizar…',opts:['Que se pague menos IVA','La inalterabilidad y trazabilidad de los registros','Que no haga falta factura','Que los precios no cambien'],a:1,why:'Busca la integridad, conservación, trazabilidad e inalterabilidad.'},
+     {q:'Veri*Factu es…',opts:['Un impuesto','La modalidad que envía cada factura a la AEAT','Un libro contable','Un tipo de pagaré'],a:1,why:'Es la modalidad de SIF que envía los registros a la AEAT.'},
+     {q:'La factura electrónica B2B es…',opts:['Una factura entre empresas enviada por vía electrónica','Una factura a particulares','Un ticket','Lo mismo que Veri*Factu'],a:0,why:'Se refiere a facturas entre empresas. No es lo mismo que Veri*Factu.'}
+    ]},
+  { id:'s24a2', code:'A2', kind:'auto', title:'Une cada definición con su concepto', ui:'select',
+    intro:'Elige el concepto que corresponde a cada definición.',
+    opts:['Veri*Factu','SIF','Factura electrónica B2B','Certificado digital'],
+    items:[
+     {q:'Envía cada factura a la AEAT al emitirla.',a:0,why:'Es la modalidad Veri*Factu.'},
+     {q:'Programa que no permite alterar los registros sin dejar rastro.',a:1,why:'Es un sistema informático de facturación.'},
+     {q:'Factura que se envía por vía electrónica entre empresas.',a:2,why:'Es la factura electrónica B2B.'},
+     {q:'Identidad electrónica para firmar y presentar trámites.',a:3,why:'Es el certificado digital.'}
+    ]},
+  { id:'s24a3', code:'A3', kind:'classroom', title:'Ventajas e inconvenientes de la aplicación gratuita de la AEAT',
+    desc:'Elabora un cuadro comparativo para un mecánico náutico autónomo: ventajas e inconvenientes de usar la aplicación gratuita de la AEAT frente a un programa de pago. Comprueba las características actuales en la web oficial. Entrega por Classroom.',
+    points:['Indica al menos tres ventajas y tres inconvenientes.','Cita la fuente oficial que has consultado.','Concluye qué opción recomiendas y por qué.']}
+ ]
+},
+/* ---------------------------------------------------------- SESIÓN 25 */
+{
+ id:'s25', n:25, block:'B10b', title:'Herramientas digitales y repaso de la unidad', ce:'3c',
+ goals:[
+  'Distinguir la presentación de libros del depósito de cuentas.',
+  'Explicar para qué sirve el certificado digital.',
+  'Explicar con ejemplos qué son el IoT, el blockchain y los contratos inteligentes.',
+  'Repasar la unidad antes de la prueba.'],
+ theory:`
+ <details class="acc" open><summary>Libros y cuentas anuales en el Registro Mercantil</summary><div class="body">
+  <div class="table-wrap"><table>
+   <tr><th>Trámite</th><th>Qué se presenta</th><th>Plazo orientativo</th></tr>
+   <tr><td>Legalización de libros</td><td>Libro Diario y Libro de Inventarios y Cuentas Anuales</td><td>Cuatro meses tras el cierre</td></tr>
+   <tr><td>Depósito de cuentas</td><td>Balance, cuenta de pérdidas y ganancias y memoria</td><td>Un mes tras la aprobación de las cuentas</td></tr>
+  </table></div>
+  <p>Las cuentas se formulan en los tres meses siguientes al cierre y la junta las aprueba en los seis primeros meses. Ambos trámites requieren <b>certificado digital</b> reconocido a nombre de la sociedad o de su representante.</p>
+  <p class="hint">Los nombres de los programas oficiales cambian con el tiempo: consulta en la web del Colegio de Registradores cuáles se usan hoy.</p>
+ </div></details>
+ <details class="acc"><summary>Certificado digital</summary><div class="body">
+  <p>Es la identidad electrónica del negocio. Sirve para identificarse y firmar ante Hacienda, la Seguridad Social y el Registro. Se obtiene en la FNMT con acreditación de identidad y <b>caduca</b>: renuévalo con tiempo.</p>
+ </div></details>
+ <details class="acc"><summary>Tecnologías emergentes (ideas, no obligaciones)</summary><div class="body">
+  <ul><li><b>IoT (internet de las cosas):</b> sensores conectados que, por ejemplo, cuentan los recambios de un varadero o miden la humedad de una nave de invernaje.</li><li><b>Blockchain:</b> registro compartido y encadenado de datos que no se puede modificar sin que se note. Podría servir para demostrar el historial de mantenimiento de una embarcación. No es solo para criptomonedas.</li><li><b>Contrato inteligente:</b> contrato que se ejecuta solo cuando se cumplen condiciones programadas. Es una idea con cautelas legales y técnicas.</li></ul>
+ </div></details>`,
+ activities:[
+  { id:'s25a1', code:'A1', kind:'auto', title:'¿Libros o cuentas anuales?', ui:'select',
+    intro:'Indica a qué trámite corresponde cada presentación.',
+    opts:['Presentación de libros','Depósito de cuentas'],
+    items:[
+     {q:'Presentar el Libro Diario.',a:0,why:'Es un libro mercantil que se legaliza.'},
+     {q:'Depositar el balance y la memoria.',a:1,why:'Son cuentas anuales.'},
+     {q:'Legalizar el Libro de Inventarios y Cuentas Anuales.',a:0,why:'Es un libro mercantil que se legaliza.'},
+     {q:'Presentar las cuentas aprobadas por la junta.',a:1,why:'Las cuentas aprobadas se depositan.'}
+    ]},
+  { id:'s25a2', code:'A2', kind:'auto', title:'Test de tecnologías y certificado', ui:'radio',
+    intro:'Cuatro preguntas.',
+    items:[
+     {q:'El IoT es…',opts:['Un programa de contabilidad','Una red de objetos físicos con sensores conectados','Un tipo de factura','Un registro público'],a:1,why:'No es un programa de contabilidad: son objetos conectados.'},
+     {q:'El blockchain sirve únicamente para…',opts:['Criptomonedas','Cobrar con tarjeta','Nada de lo anterior: tiene otros usos','Pagar impuestos'],a:2,why:'Las criptomonedas son solo un uso posible.'},
+     {q:'Un contrato inteligente…',opts:['Se ejecuta solo cuando se cumplen condiciones programadas','Sustituye siempre al notario','Es siempre ilegal','Es un pagaré'],a:0,why:'Se ejecuta de forma automática al cumplirse condiciones.'},
+     {q:'El certificado digital sirve para…',opts:['Pagar menos impuestos','Identificarse y firmar trámites','Guardar libros en papel','Cobrar con tarjeta'],a:1,why:'Es la identidad electrónica para firmar y presentar trámites.'}
+    ]},
+  { id:'s25a3', code:'A3', kind:'auto', title:'Repaso de la unidad', ui:'radio',
+    intro:'Diez preguntas de todos los bloques.',
+    items:[
+     {q:'El activo es igual a…',opts:['Pasivo − patrimonio neto','Pasivo + patrimonio neto','Patrimonio neto − pasivo','Solo el patrimonio neto'],a:1,why:'Activo = Pasivo + Patrimonio neto.'},
+     {q:'Facturas en diciembre y cobras en febrero. El ingreso se registra en… por el principio de…',opts:['Febrero, prudencia','Diciembre, devengo','Febrero, uniformidad','Diciembre, no compensación'],a:1,why:'El devengo imputa el ingreso al hecho, no al cobro.'},
+     {q:'Son obligatorias del PGC de PYMES…',opts:['Las dos últimas partes','Las tres primeras partes','Solo la cuarta','Ninguna'],a:1,why:'Son obligatorias las tres primeras.'},
+     {q:'Una compra a crédito de 1.000 € + 21 % de IVA: el IVA soportado (210 €) va…',opts:['Al Haber','Al Debe','No se anota','A Bancos'],a:1,why:'El IVA soportado va al Debe (cuenta 472).'},
+     {q:'Liquidez = activo corriente / pasivo corriente. Con 150.000 y 100.000 resulta…',opts:['0,67','1,5','2,0','3,0'],a:1,why:'150.000 / 100.000 = 1,5.'},
+     {q:'La factura simplificada general tiene un límite de…',opts:['100 €','400 €','1.000 €','3.000 € siempre'],a:1,why:'400 € IVA incluido (3.000 € en ciertos casos).'},
+     {q:'La letra de cambio la emite…',opts:['El deudor','El vendedor','El banco','Hacienda'],a:1,why:'El vendedor la emite y el cliente la acepta.'},
+     {q:'El plazo para legalizar los libros es…',opts:['Un mes','Cuatro meses desde el cierre','Un año','Seis meses'],a:1,why:'Cuatro meses desde el cierre del ejercicio.'},
+     {q:'Veri*Factu…',opts:['Envía cada factura a la AEAT al emitirla','Es un libro contable','Es un tipo de impuesto','Elimina el IVA'],a:0,why:'Es la modalidad de SIF que envía los registros a la AEAT.'},
+     {q:'¿Qué libro es propio de una sociedad y no de un autónomo?',opts:['Libro registro de ventas e ingresos','Libros registro de IVA','Libro de Actas','Ninguno'],a:2,why:'El Libro de Actas es propio de las sociedades.'}
+    ]},
+  { id:'s25a4', code:'A4', kind:'aula', title:'Una idea de tecnología para mi negocio',
+    desc:'En grupos, proponed un uso realista de IoT o blockchain para el negocio náutico de la IPO II. Indicad el problema que resuelve, los datos que se usarían y el coste aproximado.'},
+  { id:'s25a5', code:'A5', kind:'classroom', title:'Esquema de la unidad',
+    desc:'Elabora un esquema de una página con lo esencial de la UD3 para preparar la prueba. Entrega por Classroom.',
+    points:['Incluye patrimonio, principios, partida doble y ratios.','Incluye documentos comerciales, medios de pago y libros.','Añade tres preguntas que te gustaría repasar.']}
+ ]
+}
+];
+
+/* ====== RECURSOS ====== */
+const LINKS = [
+ {t:'ICAC · Normativa de contabilidad',d:'Plan General de Contabilidad y consultas del Instituto de Contabilidad y Auditoría de Cuentas.',u:'https://www.icac.gob.es'},
+ {t:'Real Decreto 1515/2007 (PGC de PYMES)',d:'Texto oficial en el BOE.',u:'https://www.boe.es/eli/es/rd/2007/11/16/1515'},
+ {t:'Código de Comercio',d:'Libros obligatorios, legalización y conservación.',u:'https://www.boe.es/buscar/act.php?id=BOE-A-1885-6627'},
+ {t:'Reglamento de facturación (Real Decreto 1619/2012)',d:'Contenido de la factura, factura simplificada y conservación.',u:'https://www.boe.es/eli/es/rd/2012/11/30/1619'},
+ {t:'Ley 3/2004 contra la morosidad',d:'Plazos de pago en operaciones comerciales.',u:'https://www.boe.es/eli/es/l/2004/12/29/3'},
+ {t:'Ley 7/2012 · Limitación de pagos en efectivo',d:'Límite de pagos en efectivo entre empresarios.',u:'https://www.boe.es/eli/es/l/2012/10/29/7'},
+ {t:'Real Decreto 1007/2023 (sistemas informáticos de facturación)',d:'Reglamento SIF y Veri*Factu.',u:'https://www.boe.es/eli/es/rd/2023/12/05/1007'},
+ {t:'Agencia Tributaria · Sede electrónica',d:'Información oficial sobre Veri*Factu y facturación.',u:'https://sede.agenciatributaria.gob.es'},
+ {t:'Colegio de Registradores',d:'Legalización de libros y depósito de cuentas anuales.',u:'https://www.registradores.org'},
+ {t:'FNMT · Certificado digital',d:'Cómo obtener y renovar el certificado.',u:'https://www.sede.fnmt.gob.es'},
+ {t:'Banco de España · Portal del Cliente Bancario',d:'Medios de pago, cuentas y tarjetas.',u:'https://clientebancario.bde.es'}
+];
+const VIDEOS = [
+ {t:'Principios contables del PGC',q:'principios contables PGC devengo prudencia explicados',s:'Comprueba que diferencia devengo y prudencia.',id:''},
+ {t:'Activo, pasivo y patrimonio neto',q:'activo pasivo patrimonio neto para principiantes',s:'Comprueba que usa la ecuación del patrimonio.',id:''},
+ {t:'Partida doble con ejemplos',q:'partida doble explicada con ejemplos asientos',s:'Comprueba que el Debe iguala al Haber.',id:''},
+ {t:'Ratios de liquidez, solvencia y endeudamiento',q:'ratios de liquidez solvencia endeudamiento fórmulas',s:'Comprueba las fórmulas.',id:''},
+ {t:'Factura completa y simplificada',q:'diferencia factura completa y simplificada RD 1619 2012',s:'Comprueba que menciona 400 € y 3.000 €.',id:''},
+ {t:'Letra de cambio y pagaré',q:'cómo funciona la letra de cambio y el pagaré',s:'Comprueba quién emite cada uno.',id:''},
+ {t:'Libros contables obligatorios',q:'libros contables obligatorios autónomos y sociedades',s:'Comprueba que distingue mercantiles de fiscales.',id:''},
+ {t:'Veri*Factu de la Agencia Tributaria',q:'cómo funciona Veri*Factu Agencia Tributaria',s:'Comprueba la fecha del vídeo y las fechas de aplicación.',id:''}
+];
+
+/* ===== CONFIGURACIÓN (edita solo este bloque) ===== */
+const CONFIG = {
+  // URL del flujo de Power Automate con disparador "Cuando se recibe una solicitud HTTP".
+  // Déjala vacía si aún no lo has creado: la web ofrecerá enviar el resultado con el correo del alumno.
+  WEBHOOK_URL: "",
+  // Dirección que recibe los resultados cuando se usa el envío alternativo por correo.
+  TEACHER_EMAIL: "jpons@centredelamar.com",
+  UNIDAD: "UD3 · IB2301 Autoocupació i emprenedoria"
+};
+
+/* ===== utilidades ===== */
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = n => (Math.round(n*10)/10).toString().replace('.', ',');
+const store = {
+  get(k){ try{ return JSON.parse(localStorage.getItem(k)); }catch(e){ return null; } },
+  set(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+};
+const state = {
+  id: store.get('ud3:id'),                // {name, group}
+  done: store.get('ud3:done') || {},      // {s1:{score, ts, sent}}
+  practice: {}                            // sesiones en modo práctica
+};
+
+/* ===== render de actividades ===== */
+function optHTML(name, i, text, type){
+  return `<label class="opt"><input type="${type}" name="${name}" value="${i}"><span>${text}</span></label>`;
+}
+function itemUI(a, it){ return it.ui || a.ui; }
+
+function renderAutoQuestion(a, it, qi, sharedOpts){
+  const name = `${a.id}__${qi}`;
+  const ui = itemUI(a, it);
+  let body = '';
+  if(ui === 'select'){
+    const opts = sharedOpts || it.opts;
+    body = `<select class="sel" name="${name}" aria-label="Respuesta"><option value="">Elige una opción…</option>${opts.map((o,i)=>`<option value="${i}">${esc(o)}</option>`).join('')}</select>`;
+  } else if(ui === 'multi'){
+    body = `<fieldset>${it.opts.map((o,i)=>optHTML(name,i,esc(o),'checkbox')).join('')}</fieldset><p class="hint">Puede haber más de una respuesta correcta.</p>`;
+  } else {
+    body = `<fieldset>${it.opts.map((o,i)=>optHTML(name,i,esc(o),'radio')).join('')}</fieldset>`;
+  }
+  return `<div class="q" data-q="${qi}" data-ui="${ui}"><div class="qt"><span class="qn">${qi+1}.</span>${esc(it.q)}</div>${body}<div class="fbslot"></div></div>`;
+}
+
+function renderGrid(a){
+  const g = a.grid;
+  let h = `<div class="table-wrap"><table class="gridtab"><tr><th></th>${g.cols.map(c=>`<th>${esc(c.name)}</th>`).join('')}</tr>`;
+  g.rows.forEach((r,ri)=>{
+    h += `<tr><th scope="row">${esc(r.label)}</th>` + g.cols.map((c,ci)=>
+      `<td class="cell" data-r="${ri}" data-c="${ci}"><select class="sel" name="${a.id}__g${ri}_${ci}" aria-label="${esc(r.label)} · ${esc(c.name)}"><option value="">Elige…</option>${c.opts.map((o,i)=>`<option value="${i}">${esc(o)}</option>`).join('')}</select><span class="why"></span></td>`).join('') + `</tr>`;
+  });
+  return h + `</table></div>`;
+}
+
+function renderActivity(a){
+  if(a.kind !== 'auto'){
+    const label = a.kind === 'classroom' ? 'Se entrega por Classroom' : 'Actividad de aula';
+    const ico = a.kind === 'classroom' ? '📎' : '🗣️';
+    const pts = a.points ? `<p><b>Cómo se valora:</b></p><ul class="goals">${a.points.map(p=>`<li>${esc(p)}</li>`).join('')}</ul>` : '';
+    return `<section class="act" id="act-${a.id}"><div class="act-head"><span class="act-code">${esc(a.code)}</span><h4>${esc(a.title)}</h4><span class="badge cls">${label}</span></div>
+      <div class="act-body"><div class="cls-box"><div class="ico" aria-hidden="true">${ico}</div><div><p>${esc(a.desc)}</p>${pts}</div></div></div></section>`;
+  }
+  let inner = a.intro ? `<p>${esc(a.intro)}</p>` : '';
+  if(a.ui === 'grid'){
+    inner += renderGrid(a);
+    if(a.extra){ inner += `<h4 style="margin-top:18px">Mini casos</h4>` + a.extra.map((it,i)=>renderAutoQuestion({id:a.id,ui:'radio'}, it, i+100)).join(''); }
+  } else {
+    inner += a.items.map((it,i)=>renderAutoQuestion(a, it, i, a.opts)).join('');
+  }
+  return `<section class="act" id="act-${a.id}" data-act="${a.id}"><div class="act-head"><span class="act-code">${esc(a.code)}</span><h4>${esc(a.title)}</h4><span class="badge auto">Autocorregible</span></div><div class="act-body">${inner}</div></section>`;
+}
+
+function renderSession(s){
+  const autos = s.activities.filter(a=>a.kind==='auto');
+  return `
+  <div class="card">
+    <div class="meta"><span class="pill brand">Sesión ${s.n} · ${s.block}</span><span class="pill">55 min</span><span class="pill">Criterio ${esc(s.ce)}</span></div>
+    <h2>${esc(s.title)}</h2>
+    <h4>Al terminar esta sesión sabrás…</h4>
+    <ul class="goals">${s.goals.map(g=>`<li>${esc(g)}</li>`).join('')}</ul>
+  </div>
+  <h3 class="sect-title">Lo esencial</h3>
+  ${s.theory}
+  <h3 class="sect-title">Actividades</h3>
+  <p class="hint">Las actividades <b>autocorregibles</b> se responden aquí y se corrigen cuando envías la sesión. Las demás se explican y se hacen en clase o en Classroom.</p>
+  <div id="notice-${s.id}"></div>
+  ${s.activities.map(renderActivity).join('')}
+  ${autos.length ? `<div class="submit-bar" id="bar-${s.id}">
+      <div class="progress"><span id="prog-${s.id}">0 de 0 respondidas</span><div class="bar"><i id="barfill-${s.id}"></i></div></div>
+      <button class="btn" id="send-${s.id}">Enviar actividades de la sesión ${s.n}</button>
+    </div><div id="result-${s.id}"></div>` : ''}`;
+}
+
+/* ===== recuento y corrección ===== */
+function unitsOf(a){
+  // devuelve la lista de "unidades" calificables de una actividad autocorregible
+  const u = [];
+  if(a.ui === 'grid'){
+    a.grid.rows.forEach((r,ri)=>a.grid.cols.forEach((c,ci)=>u.push({kind:'cell',ri,ci,a:r.a[ci],name:`${a.id}__g${ri}_${ci}`})));
+    (a.extra||[]).forEach((it,i)=>u.push({kind:'radio',qi:i+100,it,name:`${a.id}__${i+100}`}));
+  } else {
+    a.items.forEach((it,i)=>{
+      const ui = itemUI(a,it);
+      u.push({kind: ui==='select'?'select':ui==='multi'?'multi':'radio', qi:i, it, name:`${a.id}__${i}`, sel: a.opts});
+    });
+  }
+  return u;
+}
+function valueOf(panel, u){
+  if(u.kind==='multi') return $$(`input[name="${u.name}"]:checked`,panel).map(x=>+x.value);
+  if(u.kind==='radio'){ const c=$(`input[name="${u.name}"]:checked`,panel); return c ? +c.value : null; }
+  const s=$(`select[name="${u.name}"]`,panel); return s && s.value!=='' ? +s.value : null;
+}
+function answered(v){ return Array.isArray(v) ? v.length>0 : v!==null; }
+
+function countAnswered(sess, panel){
+  let t=0, r=0;
+  sess.activities.filter(a=>a.kind==='auto').forEach(a=>unitsOf(a).forEach(u=>{ t++; if(answered(valueOf(panel,u))) r++; }));
+  return {t,r};
+}
+function updateProgress(sess, panel){
+  const {t,r} = countAnswered(sess,panel);
+  const p = $(`#prog-${sess.id}`); if(p) p.textContent = `${r} de ${t} respondidas`;
+  const b = $(`#barfill-${sess.id}`); if(b) b.style.width = (t? r/t*100 : 0)+'%';
+}
+
+function gradeActivity(a, panel){
+  const box = $(`#act-${a.id}`, panel);
+  let sum=0, total=0, ans=0;
+  const units = unitsOf(a);
+  units.forEach(u=>{
+    const v = valueOf(panel,u);
+    total++; if(answered(v)) ans++;
+    let frac=0;
+    if(u.kind==='cell'){
+      frac = v===u.a ? 1 : 0;
+      const cell = $(`td.cell[data-r="${u.ri}"][data-c="${u.ci}"]`, box);
+      cell.classList.add(frac?'ok':'bad');
+      if(!frac){ $('.why',cell).textContent = 'Correcto: ' + a.grid.cols[u.ci].opts[u.a]; }
+    } else if(u.kind==='multi'){
+      const right = u.it.a, got = v||[];
+      const hits = got.filter(x=>right.includes(x)).length, wrong = got.filter(x=>!right.includes(x)).length;
+      frac = Math.max(0,(hits-wrong)/right.length);
+      const q = $(`.q[data-q="${u.qi}"]`, box);
+      q.classList.add(frac===1?'ok':'bad');
+      $$('.opt',q).forEach((o,i)=>{ if(right.includes(i)) o.classList.add('right'); if(got.includes(i)) o.classList.add('chosen'); });
+      $('.fbslot',q).innerHTML = `<div class="fb ${frac===1?'ok':'bad'}"><b>${frac===1?'Correcto':(frac>0?'Parcialmente correcto':'Incorrecto')}</b><span>${esc(u.it.why)}</span></div>`;
+    } else {
+      const right = u.it.a;
+      frac = v===right ? 1 : 0;
+      const q = $(`.q[data-q="${u.qi}"]`, box);
+      q.classList.add(frac?'ok':'bad');
+      const opts = u.kind==='select' ? a.opts : u.it.opts;
+      if(u.kind==='radio'){
+        $$('.opt',q).forEach((o,i)=>{ if(i===right) o.classList.add('right'); if(i===v) o.classList.add('chosen'); });
+      }
+      const sel = $('select',q); if(sel){ sel.classList.add(frac?'ok':'bad'); }
+      $('.fbslot',q).innerHTML = `<div class="fb ${frac?'ok':'bad'}"><b>${frac?'Correcto':(v===null?'Sin responder':'Incorrecto')}${frac?'':' · Respuesta correcta: '+esc(opts[right])}</b><span>${esc(u.it.why)}</span></div>`;
+    }
+    sum += frac;
+  });
+  return {codigo:a.code, titulo:a.title, aciertos:Math.round(sum*100)/100, total, respondidas:ans, nota:Math.round(sum/total*100)/10};
+}
+function lockPanel(panel, lock){
+  $$('input,select', panel).forEach(el=>{ if(el.closest('.act-body')) el.disabled = lock; });
+}
+function resetActivities(sess, panel){
+  $$('.act[data-act]', panel).forEach(box=>{
+    $$('input',box).forEach(i=>{ i.checked=false; });
+    $$('select',box).forEach(s=>{ s.value=''; s.classList.remove('ok','bad'); });
+    $$('.q',box).forEach(q=>{ q.classList.remove('ok','bad'); $('.fbslot',q).innerHTML=''; $$('.opt',q).forEach(o=>o.classList.remove('right','chosen')); });
+    $$('td.cell',box).forEach(c=>{ c.classList.remove('ok','bad'); $('.why',c).textContent=''; });
+  });
+}
+
+/* ===== diálogos ===== */
+function askConfirm(title, text, okLabel='Continuar'){
+  return new Promise(res=>{
+    const d = $('#cfDlg'); $('#cfTitle').textContent = title; $('#cfText').textContent = text; $('#cfOk').textContent = okLabel;
+    const done = v => { d.close(); res(v); };
+    $('#cfOk').onclick = ()=>done(true); $('#cfNo').onclick = ()=>done(false);
+    d.oncancel = e=>{ e.preventDefault(); done(false); };
+    d.showModal();
+  });
+}
+function openIdentity(){
+  return new Promise(res=>{
+    const d = $('#idDlg'); const f = $('#idForm');
+    $('#idName').value = state.id ? state.id.name : ''; $('#idGroup').value = state.id ? state.id.group : '';
+    $('#idErr').textContent = '';
+    f.onsubmit = e=>{
+      e.preventDefault();
+      const name = $('#idName').value.trim().replace(/\s+/g,' '), group = $('#idGroup').value.trim().toUpperCase();
+      if(name.length < 3){ $('#idErr').textContent = 'Escribe tu nombre y apellidos.'; $('#idName').focus(); return; }
+      if(group.length < 2){ $('#idErr').textContent = 'Escribe el código de tu grupo.'; $('#idGroup').focus(); return; }
+      state.id = {name, group}; store.set('ud3:id', state.id); refreshWho(); d.close(); res(true);
+    };
+    $('#idCancel').onclick = ()=>{ d.close(); res(false); };
+    d.oncancel = ()=>res(false);
+    d.showModal(); setTimeout(()=>$('#idName').focus(),30);
+  });
+}
+async function requireIdentity(){ if(state.id) return true; return openIdentity(); }
+function refreshWho(){
+  const w = $('#who'); w.textContent = state.id ? `👤 ${state.id.name} · ${state.id.group}` : '👤 Identifícate';
+}
+
+/* ===== envío ===== */
+function buildPayload(sess, acts, total, practice){
+  const aciertosTot = acts.reduce((s,a)=>s+a.aciertos,0), unidades = acts.reduce((s,a)=>s+a.total,0);
+  const resp = acts.reduce((s,a)=>s+a.respondidas,0);
+  const nota = Math.round(aciertosTot/unidades*100)/10;
+  const resumen = [
+    `${CONFIG.UNIDAD}`, `Sesión ${sess.n} (${sess.block}) · ${sess.title}`,
+    `Alumno/a: ${state.id.name}`, `Grupo: ${state.id.group}`,
+    `Nota de la sesión: ${fmt(nota)} / 10  (${resp} de ${unidades} respondidas)`, '',
+    ...acts.map(a=>`- ${a.codigo} · ${a.titulo}: ${fmt(a.nota)} / 10 (${fmt(a.aciertos)} de ${a.total})`),
+    '', `Fecha: ${new Date().toLocaleString('es-ES')}`
+  ].join('\n');
+  return { version:1, unidad:CONFIG.UNIDAD, sesion:'S'+sess.n, bloque:sess.block, titulo:sess.title,
+    alumno:state.id.name, grupo:state.id.group, nota, nota_texto:`${fmt(nota)} / 10`, respondidas:resp, total:unidades,
+    actividades:acts, fecha:new Date().toISOString(), practica:!!practice,
+    asunto:`[${state.id.group}] ${state.id.name} · S${sess.n} ${sess.block} · ${fmt(nota)}/10`, resumen };
+}
+async function sendPayload(p){
+  if(!CONFIG.WEBHOOK_URL) return {ok:false, reason:'noconfig'};
+  try{
+    await fetch(CONFIG.WEBHOOK_URL, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=UTF-8'}, body:JSON.stringify(p)});
+    return {ok:true};
+  }catch(e){ return {ok:false, reason:'network'}; }
+}
+function mailtoFor(p){
+  return `mailto:${CONFIG.TEACHER_EMAIL}?subject=${encodeURIComponent(p.asunto)}&body=${encodeURIComponent(p.resumen)}`;
+}
+
+async function submitSession(sess){
+  const panel = $(`#panel-${sess.id}`);
+  if(!(await requireIdentity())) return;
+  const practice = !!state.practice[sess.id];
+  const {t,r} = countAnswered(sess, panel);
+  if(r < t){
+    const ok = await askConfirm('Faltan respuestas', `Has respondido ${r} de ${t}. Las que falten contarán como incorrectas y no podrás cambiar tus respuestas después. ¿Enviar igualmente?`, 'Enviar igualmente');
+    if(!ok) return;
+  } else {
+    const ok = await askConfirm('¿Enviar la sesión?', practice ? 'Estás en modo práctica: se corregirá pero no se enviará nada a tu profesor.' : 'Se corregirá y se enviará tu resultado a tu profesor. No podrás cambiar las respuestas enviadas.', 'Enviar');
+    if(!ok) return;
+  }
+  const acts = sess.activities.filter(a=>a.kind==='auto').map(a=>gradeActivity(a,panel));
+  lockPanel(panel,true);
+  $(`#send-${sess.id}`).disabled = true;
+  const p = buildPayload(sess, acts, null, practice);
+  const out = $(`#result-${sess.id}`);
+  out.innerHTML = `<div class="result" role="status"><div class="big">${fmt(p.nota)} <small>/ 10</small></div>
+    <p style="margin:.4em 0">${practice?'Modo práctica: este intento no se envía.':'Resultado de la sesión'}</p>
+    <ul>${acts.map(a=>`<li><b>${esc(a.codigo)}</b> · ${esc(a.titulo)}: ${fmt(a.nota)} / 10</li>`).join('')}</ul>
+    <div id="st-${sess.id}"></div>
+    <div class="dlg-actions" style="justify-content:flex-start">
+      <button class="btn sec" id="copy-${sess.id}">Copiar resumen</button>
+      <button class="btn ghost" id="again-${sess.id}">Practicar de nuevo (no se envía)</button>
+    </div></div>`;
+  $(`#copy-${sess.id}`).onclick = async e=>{ try{ await navigator.clipboard.writeText(p.resumen); e.target.textContent='Copiado ✓'; }catch(_){ e.target.textContent='No se pudo copiar'; } };
+  $(`#again-${sess.id}`).onclick = ()=>{ state.practice[sess.id]=true; resetActivities(sess,panel); lockPanel(panel,false); out.innerHTML=''; $(`#send-${sess.id}`).disabled=false; updateProgress(sess,panel); showNotice(sess); panel.scrollIntoView({behavior:'smooth'}); };
+  out.scrollIntoView({behavior:'smooth', block:'center'});
+  const st = $(`#st-${sess.id}`);
+  if(practice){ st.innerHTML = `<div class="status warn">Modo práctica: no se ha enviado nada.</div>`; return; }
+  const doSend = async ()=>{
+    st.innerHTML = `<div class="status warn">Enviando…</div>`;
+    const res = await sendPayload(p);
+    if(res.ok){
+      state.done[sess.id] = {score:p.nota, ts:p.fecha, sent:true}; store.set('ud3:done', state.done); markTabs();
+      st.innerHTML = `<div class="status ok">✓ Resultado enviado a tu profesor. Guarda una captura de esta pantalla como justificante.</div>`;
+    } else if(res.reason==='noconfig'){
+      state.done[sess.id] = {score:p.nota, ts:p.fecha, sent:false}; store.set('ud3:done', state.done); markTabs();
+      st.innerHTML = `<div class="status warn">El envío automático aún no está activado. Envía tu resultado por correo con este botón:</div>
+        <p style="margin-top:8px"><a class="btn" href="${mailtoFor(p)}">Enviar por correo</a></p>`;
+    } else {
+      st.innerHTML = `<div class="status bad">No se ha podido enviar (¿sin conexión?).</div>
+        <p style="margin-top:8px"><button class="btn" id="retry-${sess.id}">Reintentar</button> <a class="btn sec" href="${mailtoFor(p)}">Enviar por correo</a></p>`;
+      $(`#retry-${sess.id}`).onclick = doSend;
+    }
+  };
+  doSend();
+}
+
+function showNotice(sess){
+  const n = $(`#notice-${sess.id}`); if(!n) return;
+  const d = state.done[sess.id];
+  if(state.practice[sess.id] && d){ n.innerHTML = `<div class="callout info"><b class="t">Modo práctica</b>Ya enviaste esta sesión${d.score!=null?` (nota ${fmt(d.score)} / 10)`:''}. Puedes repetir las actividades, pero no se enviarán de nuevo.</div>`; }
+  else n.innerHTML = '';
+}
+
+/* ===== tabs ===== */
+const TABS = [{id:'inicio',label:'Inicio',sub:'UD3'}].concat(SESSIONS.map(s=>({id:s.id,label:`Sesión ${s.n}`,sub:s.block}))).concat([{id:'recursos',label:'Recursos',sub:'Enlaces y vídeos'}]);
+function markTabs(){
+  $$('.tab').forEach(t=>{
+    const id = t.dataset.id, d = state.done[id];
+    const mark = $('.mk', t); if(mark) mark.innerHTML = d ? ' <span class="done" title="Enviada">✓</span>' : '';
+  });
+}
+function selectTab(id, focus){
+  TABS.forEach(t=>{
+    const on = t.id===id, btn = $(`#tab-${t.id}`), pn = $(`#panel-${t.id}`);
+    btn.setAttribute('aria-selected', on); btn.tabIndex = on?0:-1; pn.hidden = !on;
+  });
+  if(history.replaceState) history.replaceState(null,'','#'+id);
+  const b = $(`#tab-${id}`); if(focus) b.focus(); b.scrollIntoView({inline:'center',block:'nearest'});
+  window.scrollTo({top:0});
+}
+
+/* ===== páginas ===== */
+function renderInicio(){
+  const rows = SESSIONS.map(s=>{
+    const au = s.activities.filter(a=>a.kind==='auto').length, ot = s.activities.length-au;
+    return `<tr><td><a href="#${s.id}" data-go="${s.id}">Sesión ${s.n}</a></td><td>${s.block}</td><td>${esc(s.title)}</td><td>${esc(s.ce)}</td><td>${au}</td><td>${ot}</td></tr>`;
+  }).join('');
+  return `<div class="card"><h2>Unidad 3 · Contabilidad básica y documentación comercial</h2>
+   <p>Nueve sesiones para entender qué es la contabilidad, registrar operaciones sencillas, leer unos ratios, documentar una venta, elegir cómo cobrar y saber qué libros y qué facturación digital exige la ley. Todos los ejemplos son del sector náutico de Menorca.</p>
+   <div class="meta"><span class="pill brand">RA3</span><span class="pill">Criterios 3a a 3e</span><span class="pill">9 sesiones · 55 min</span></div></div>
+   <div class="grid2">
+    <div class="card"><h3>Cómo funciona</h3><ol class="goals">
+      <li>Elige la pestaña de tu sesión y lee <b>Lo esencial</b>.</li>
+      <li>Haz las actividades. Te pediremos tu <b>nombre y el código de tu grupo</b> al empezar.</li>
+      <li>Pulsa <b>Enviar actividades</b> al final de la sesión: se corrigen al momento y tu profesor recibe el resultado.</li>
+      <li>Las actividades marcadas <span class="badge cls">Classroom</span> se explican aquí, pero se entregan en Classroom.</li></ol></div>
+    <div class="card"><h3>Conviene saber</h3><ul class="goals">
+      <li>Solo cuenta el primer envío de cada sesión. Después puedes <b>practicar</b> sin que se envíe.</li>
+      <li>Las cifras, tipos y plazos son de octubre de 2026. Cambian cada año: comprueba siempre la fuente oficial.</li>
+      <li>Si el envío falla, podrás mandar el resultado por correo.</li></ul></div>
+   </div>
+   <div class="card"><h3>Mapa de la unidad</h3><div class="table-wrap"><table><tr><th>Sesión</th><th>Bloque</th><th>Tema</th><th>Criterio</th><th>Autocorregibles</th><th>Aula / Classroom</th></tr>${rows}</table></div></div>`;
+}
+function renderRecursos(){
+  return `<div class="card"><h2>Enlaces de interés</h2><p class="hint">Fuentes oficiales para consultar la normativa y las convocatorias vigentes.</p>
+   <ul class="links">${LINKS.map(l=>`<li><a class="lk" href="${l.u}" target="_blank" rel="noopener noreferrer"><span class="lt">${esc(l.t)}</span><span class="ld">${esc(l.d)}</span></a></li>`).join('')}</ul></div>
+   <div class="card"><h2>Vídeos recomendados</h2><p class="hint">Cada tarjeta abre una búsqueda en YouTube con la consulta indicada. Elige un vídeo de menos de 10 minutos de un canal fiable y comprueba que las cifras sean actuales.</p>
+   <div class="vgrid">${VIDEOS.map(v=>`<div class="vcard">${v.id?`<iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/${esc(v.id)}" title="${esc(v.t)}" allowfullscreen></iframe>`:`<div class="thumb" aria-hidden="true">▶</div>`}
+     <div class="vb"><b>${esc(v.t)}</b><small>${esc(v.s)}</small><br><a href="https://www.youtube.com/results?search_query=${encodeURIComponent(v.q)}" target="_blank" rel="noopener noreferrer">Buscar: ${esc(v.q)}</a></div></div>`).join('')}</div></div>`;
+}
+
+/* ===== arranque ===== */
+function init(){
+  const tabs = $('#tabs'), main = $('#app');
+  tabs.innerHTML = TABS.map(t=>`<button class="tab" role="tab" id="tab-${t.id}" data-id="${t.id}" aria-controls="panel-${t.id}" aria-selected="false" tabindex="-1">${t.label}<small>${t.sub}<span class="mk"></span></small></button>`).join('');
+  main.innerHTML = TABS.map(t=>`<section class="panel" role="tabpanel" id="panel-${t.id}" aria-labelledby="tab-${t.id}" hidden></section>`).join('');
+  $('#panel-inicio').innerHTML = renderInicio();
+  SESSIONS.forEach(s=>{
+    const p = $(`#panel-${s.id}`); p.innerHTML = renderSession(s);
+    if(state.done[s.id]) state.practice[s.id] = true;
+    showNotice(s);
+    p.addEventListener('change', ()=>updateProgress(s,p));
+    p.addEventListener('input', ()=>updateProgress(s,p));
+    updateProgress(s,p);
+    const b = $(`#send-${s.id}`); if(b) b.onclick = ()=>submitSession(s);
+  });
+  $('#panel-recursos').innerHTML = renderRecursos();
+  tabs.addEventListener('click', e=>{ const b=e.target.closest('.tab'); if(b) selectTab(b.dataset.id); });
+  tabs.addEventListener('keydown', e=>{
+    const i = TABS.findIndex(t=>$(`#tab-${t.id}`).getAttribute('aria-selected')==='true');
+    let n = null;
+    if(e.key==='ArrowRight') n=(i+1)%TABS.length; else if(e.key==='ArrowLeft') n=(i-1+TABS.length)%TABS.length;
+    else if(e.key==='Home') n=0; else if(e.key==='End') n=TABS.length-1;
+    if(n!==null){ e.preventDefault(); selectTab(TABS[n].id,true); }
+  });
+  document.addEventListener('click', e=>{ const g=e.target.closest('[data-go]'); if(g){ e.preventDefault(); selectTab(g.dataset.go); } });
+  // pedir identificación al empezar las actividades
+  main.addEventListener('focusin', async e=>{
+    if(state.id || $('#idDlg').open) return;
+    if(e.target.closest('.act[data-act] .act-body')){ e.target.blur(); await openIdentity(); }
+  });
+  $('#who').onclick = openIdentity;
+  refreshWho(); markTabs();
+  const h = (location.hash||'').slice(1);
+  selectTab(TABS.some(t=>t.id===h) ? h : 'inicio');
+}
+document.addEventListener('DOMContentLoaded', init);
+
+</script>
+</body>
+</html>
